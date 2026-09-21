@@ -3,25 +3,28 @@ import { useCart } from "../context/CartContext";
 
 export default function Navbar() {
   const { cart } = useCart();
-
-  // Sum up all quantities for the cart badge
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <nav
-      style={{
+    <nav style={{
         display: "flex",
-        justifyContent: "center",
-        gap: 24,
-        marginBottom: 16,
-      }}
-    >
-      <Link to="/" style={{ color: "gold" }}>
-        Home
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "24px 0",
+        marginBottom: 40,
+        borderBottom: "1px solid #eaeaea"
+    }}>
+      <Link to="/" style={{ color: "#000", textDecoration: "none", fontSize: "28px", fontWeight: "bold", letterSpacing: "-0.5px" }}>
+        Nerusu Jewels
       </Link>
-      <Link to="/cart" style={{ color: "gold" }}>
-        Cart ({totalItems})
-      </Link>
+      <div style={{ display: "flex", gap: 30 }}>
+        <Link to="/" style={{ color: "#444", textDecoration: "none", fontWeight: "500" }}>
+          Shop
+        </Link>
+        <Link to="/cart" style={{ color: "#444", textDecoration: "none", fontWeight: "500" }}>
+          Cart ({totalItems})
+        </Link>
+      </div>
     </nav>
   );
 }

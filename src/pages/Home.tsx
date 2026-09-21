@@ -1,52 +1,42 @@
-import { useEffect, useState } from "react";
-import type { Product } from "../types/product";
+import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useCart } from "../context/CartContext";
+import { jewelryProducts } from "../data/products";
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
   const { addToCart } = useCart();
 
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products/category/jewelery")
-      .then((res) => res.json())
-      .then((data: Product[]) => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
-  const filtered = products.filter((p) =>
+  const filtered = jewelryProducts.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  if (loading) return <p>Loading...</p>;
-
   return (
     <div>
-      <input
-        placeholder="Search jewelry"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{
-          display: "block",
-          margin: "0 auto 24px",
-          padding: "10px 16px",
-          width: 280,
-          borderRadius: 8,
-          border: "1px solid gold",
-        }}
-      />
-      <div
-        style={{
+      <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <h2 style={{ fontSize: "32px", margin: "0 0 10px 0", fontWeight: "300" }}>Handmade Necklaces</h2>
+        <p style={{ color: "#666", marginBottom: 24 }}>Discover our artisan-crafted jewelry collection</p>
+        <input
+          placeholder="Search collections..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            padding: "14px 24px",
+            width: "100%",
+            maxWidth: 450,
+            borderRadius: 30,
+            border: "1px solid #ddd",
+            outline: "none",
+            fontSize: "16px",
+          }}
+        />
+      </div>
+
+      <div style={{
           display: "grid",
-          gap: 16,
-          gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-        }}
-      >
+          gap: 30,
+          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+      }}>
         {filtered.map((p) => (
           <ProductCard key={p.id} product={p} onAdd={addToCart} />
         ))}
