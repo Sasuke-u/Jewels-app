@@ -5,10 +5,7 @@ import Cart from "./pages/Cart";
 
 export default function App() {
   return (
-    <div style={{ padding: 20 }}>
-      <h1 style={{ color: "green", textAlign: "center" }}>
-        Santhosh's Jewels
-      </h1>
+    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px 60px" }}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

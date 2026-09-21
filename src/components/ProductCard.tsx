@@ -7,24 +7,57 @@ interface Props {
 
 export default function ProductCard({ product, onAdd }: Props) {
   return (
-    <div style={{ border: "1px solid #ddd", padding: 12, borderRadius: 8 }}>
-      <img src={product.image} alt={product.title} width={120} />
-      <h4>{product.title}</h4>
-      <p>${product.price}</p>
-      <button
-        onClick={() => onAdd(product)}
-        style={{
-          padding: "8px 16px",
-          borderRadius: 8,
-          border: "none",
-          background: "gold",
-          color: "#222",
-          fontWeight: "bold",
-          cursor: "pointer",
-        }}
-      >
-        Add to cart
-      </button>
+    <div
+      style={{
+        backgroundColor: "#fff",
+        borderRadius: "8px",
+        overflow: "hidden",
+        border: "1px solid #eaeaea",
+        display: "flex",
+        flexDirection: "column",
+        transition: "transform 0.2s, box-shadow 0.2s",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-5px)";
+        e.currentTarget.style.boxShadow = "0 10px 20px rgba(0,0,0,0.08)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "none";
+      }}
+    >
+      <img
+        src={product.image}
+        alt={product.title}
+        style={{ width: "100%", height: "280px", objectFit: "cover" }}
+      />
+      <div style={{ padding: "20px", display: "flex", flexDirection: "column", flex: 1 }}>
+        <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>
+          {product.title}
+        </h3>
+        <span style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "20px" }}>
+          ${product.price.toFixed(2)}
+        </span>
+        
+        <button
+          onClick={() => onAdd(product)}
+          style={{
+            marginTop: "auto",
+            backgroundColor: "#111",
+            color: "#fff",
+            border: "none",
+            padding: "12px",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            transition: "background-color 0.2s"
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#444")}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#111")}
+        >
+          Add to Cart
+        </button>
+      </div>
     </div>
   );
 }
