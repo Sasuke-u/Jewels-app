@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/product";
 import ProductCard from "../components/ProductCard";
+import { useCart } from "../context/CartContext";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [cart, setCart] = useState<Product[]>([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/category/jewelery")
@@ -18,12 +19,6 @@ export default function Home() {
       .catch(() => setLoading(false));
   }, []);
 
-  const addToCart = (product: Product) => {
-    setCart([...cart, product]);
-  };
-
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
-
   const filtered = products.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -32,15 +27,6 @@ export default function Home() {
 
   return (
     <div>
-      <p style={{ textAlign: "center", fontSize: 18 }}>
-        Cart: {cart.length} items | Total: ${total.toFixed(2)}
-        {cart.length > 0 && (
-          <button onClick={() => setCart([])} style={{ marginLeft: 12 }}>
-            Clear
-          </button>
-        )}
-      </p>
-
       <input
         placeholder="Search jewelry"
         value={search}
