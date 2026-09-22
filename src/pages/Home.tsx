@@ -1,21 +1,47 @@
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
+import CategoryBar from "../components/CategoryBar";
+import CategoryGrid from "../components/CategoryGrid";
 import { useCart } from "../context/CartContext";
-import { jewelryProducts } from "../data/products";
+import { jewelryProducts, categories } from "../data/products";
 
 export default function Home() {
   const [search, setSearch] = useState<string>("");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
   const { addToCart } = useCart();
 
-  const filtered = jewelryProducts.filter((p) =>
-    p.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const categoryNames = categories.map((c) => c.name);
+
+  const filtered = jewelryProducts.filter((p) => {
+    const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = activeCategory === "All" || p.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div>
-      <div style={{ textAlign: "center", marginBottom: 40 }}>
-        <h2 style={{ fontSize: "32px", margin: "0 0 10px 0", fontWeight: "300" }}>Handmade Necklaces</h2>
-        <p style={{ color: "#666", marginBottom: 24 }}>Discover our artisan-crafted jewelry collection</p>
+      <CategoryBar
+        active={activeCategory}
+        onSelect={setActiveCategory}
+        categories={categoryNames}
+      />
+
+      <div
+        style={{
+          textAlign: "center",
+          padding: "70px 20px",
+          margin: "24px 0 0",
+          borderRadius: 16,
+          background: "linear-gradient(135deg, #2b2b2b, #4a4a4a)",
+          color: "#fff",
+        }}
+      >
+        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, margin: "0 0 12px" }}>
+          Timeless Elegance,<br />Handcrafted for You
+        </h1>
+        <p style={{ color: "#ddd", marginBottom: 28, fontSize: 16 }}>
+          Discover our artisan-crafted jewelry collection
+        </p>
         <input
           placeholder="Search collections..."
           value={search}
@@ -23,20 +49,24 @@ export default function Home() {
           style={{
             padding: "14px 24px",
             width: "100%",
-            maxWidth: 450,
+            maxWidth: 420,
             borderRadius: 30,
-            border: "1px solid #ddd",
+            border: "none",
             outline: "none",
-            fontSize: "16px",
+            fontSize: 15,
           }}
         />
       </div>
 
-      <div style={{
+      <CategoryGrid categories={categories} onSelect={setActiveCategory} />
+
+      <div
+        style={{
           display: "grid",
-          gap: 30,
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-      }}>
+          gap: 28,
+          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+        }}
+      >
         {filtered.map((p) => (
           <ProductCard key={p.id} product={p} onAdd={addToCart} />
         ))}
