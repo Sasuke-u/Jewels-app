@@ -1,12 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import snLogo from "../assets/sn-logo.png";
+import snLogo from "../assets/sn-logo (2).png";
 import cartIcon from "../assets/cart-icon.png";
 
 export default function Navbar() {
   const { cart } = useCart();
   const navigate = useNavigate();
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -76,30 +78,47 @@ export default function Navbar() {
           )}
         </Link>
 
-        <button
-          onClick={handleLogout}
-          style={{
-            backgroundColor: "transparent",
-            border: "1px solid #111",
-            color: "#111",
-            padding: "8px 16px",
-            borderRadius: "4px",
-            fontWeight: "500",
-            fontSize: "14px",
-            cursor: "pointer",
-            transition: "background-color 0.2s, color 0.2s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#111";
-            e.currentTarget.style.color = "#fff";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "transparent";
-            e.currentTarget.style.color = "#111";
-          }}
-        >
-          Logout
-        </button>
+        {isLoggedIn ? (
+          <button
+            onClick={handleLogout}
+            style={{
+              backgroundColor: "transparent",
+              border: "1px solid #111",
+              color: "#111",
+              padding: "8px 16px",
+              borderRadius: "4px",
+              fontWeight: "500",
+              fontSize: "14px",
+              cursor: "pointer",
+              transition: "background-color 0.2s, color 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#111";
+              e.currentTarget.style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = "#111";
+            }}
+          >
+            Logout
+          </button>
+        ) : (
+          <Link
+            to="/login"
+            style={{
+              backgroundColor: "#111",
+              color: "#fff",
+              padding: "8px 18px",
+              borderRadius: "4px",
+              fontWeight: "600",
+              fontSize: "14px",
+              textDecoration: "none",
+            }}
+          >
+            Sign In
+          </Link>
+        )}
       </div>
     </nav>
   );
