@@ -1,122 +1,112 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import snLogo from "../assets/sn-logo (2).png";
+import { useAuth } from "../context/AuthContext";
+import logo from "../assets/sn-logo (2).png";
 import cartIcon from "../assets/cart-icon.png";
 
 export default function Navbar() {
   const { cart } = useCart();
-  const navigate = useNavigate();
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const { user, logout } = useAuth();
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    navigate("/login");
-  };
+  const cartItemCount = cart?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   return (
-    <nav style={{
+    <nav
+      style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "24px 0",
-        marginBottom: 40,
-        borderBottom: "1px solid #eaeaea"
-    }}>
-      <Link
-        to="/"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          color: "#000",
-          textDecoration: "none",
-        }}
-      >
-        <img src={snLogo} alt="SN Logo" style={{ width: "36px", height: "36px" }} />
-        <span style={{ fontSize: "28px", fontWeight: "bold", letterSpacing: "-0.5px" }}>
-          Nerusu Jewels
-        </span>
+        padding: "12px 32px",
+        borderBottom: "1px solid #eaeaea",
+        backgroundColor: "#ffffff",
+      }}
+    >
+      {/* Logo */}
+      <Link to="/" style={{ display: "flex", alignItems: "center" }}>
+        <img
+          src={logo}
+          alt="Nerusu Jewels"
+          style={{ height: "45px", objectFit: "contain" }}
+        />
       </Link>
 
-      <div style={{ display: "flex", gap: 30, alignItems: "center" }}>
-        <Link to="/" style={{ color: "#444", textDecoration: "none", fontWeight: "500" }}>
-          Shop
+      {/* Navigation Items */}
+      <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
+        <Link
+          to="/"
+          style={{ textDecoration: "none", color: "#333", fontWeight: 600, fontSize: "14px" }}
+        >
+          Home
         </Link>
 
         <Link
           to="/cart"
           style={{
-            position: "relative",
+            textDecoration: "none",
+            color: "#333",
+            fontWeight: 600,
+            fontSize: "14px",
             display: "flex",
             alignItems: "center",
-            textDecoration: "none",
+            gap: "8px",
           }}
         >
-          <img src={cartIcon} alt="Cart" style={{ width: "28px", height: "28px" }} />
-          {totalItems > 0 && (
+          <img src={cartIcon} alt="Cart" style={{ width: "22px", height: "22px" }} />
+          <span>Cart</span>
+          {cartItemCount > 0 && (
             <span
               style={{
-                position: "absolute",
-                top: "-8px",
-                right: "-10px",
-                backgroundColor: "#D90000",
+                backgroundColor: "#111",
                 color: "#fff",
                 borderRadius: "50%",
-                width: "18px",
-                height: "18px",
+                padding: "2px 7px",
                 fontSize: "11px",
                 fontWeight: 700,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
               }}
             >
-              {totalItems}
+              {cartItemCount}
             </span>
           )}
         </Link>
 
-        {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            style={{
-              backgroundColor: "transparent",
-              border: "1px solid #111",
-              color: "#111",
-              padding: "8px 16px",
-              borderRadius: "4px",
-              fontWeight: "500",
-              fontSize: "14px",
-              cursor: "pointer",
-              transition: "background-color 0.2s, color 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#111";
-              e.currentTarget.style.color = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = "#111";
-            }}
-          >
-            Logout
-          </button>
+        <Link
+          to="/checkout"
+          style={{ textDecoration: "none", color: "#333", fontWeight: 600, fontSize: "14px" }}
+        >
+          Checkout
+        </Link>
+
+        {user ? (
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span style={{ fontSize: "14px", color: "#555" }}>Hi, {user.name}</span>
+            <button
+              onClick={logout}
+              style={{
+                background: "none",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                padding: "4px 10px",
+                cursor: "pointer",
+                fontSize: "12px",
+              }}
+            >
+              Logout
+            </button>
+          </div>
         ) : (
           <Link
             to="/login"
             style={{
-              backgroundColor: "#111",
-              color: "#fff",
-              padding: "8px 18px",
-              borderRadius: "4px",
-              fontWeight: "600",
-              fontSize: "14px",
               textDecoration: "none",
+              color: "#fff",
+              backgroundColor: "#111",
+              padding: "8px 16px",
+              borderRadius: "6px",
+              fontWeight: 600,
+              fontSize: "13px",
             }}
           >
-            Sign In
+            Log In
           </Link>
         )}
       </div>
