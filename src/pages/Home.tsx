@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import CategoryBar from "../components/CategoryBar";
-import CategoryGrid from "../components/CategoryGrid";
 import { useCart } from "../context/CartContext";
 import { jewelryProducts, categories } from "../data/products";
 
@@ -58,13 +57,12 @@ export default function Home() {
         />
       </div>
 
-      <CategoryGrid categories={categories} onSelect={setActiveCategory} />
-
       <div
         style={{
           display: "grid",
           gap: 28,
           gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+          padding: "32px 0",
         }}
       >
         {filtered.map((p) => (
