@@ -22,100 +22,127 @@ const stars = Array.from({ length: 60 }, () => ({
   delay: Math.random() * 3,
 }));
 
+function GemBackground() {
+  return (
+    <div className="bg-animation">
+      {stars.map((s, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            top: s.top,
+            left: s.left,
+            width: s.size,
+            height: s.size,
+            borderRadius: "50%",
+            backgroundColor: "#fff",
+            opacity: 0,
+            animation: `twinkle 2.5s ease-in-out ${s.delay}s infinite`,
+          }}
+        />
+      ))}
+      {gems.map((g, i) => (
+        <div
+          key={i}
+          className="gem"
+          style={{
+            top: g.top,
+            left: g.left,
+            width: g.size,
+            height: g.size,
+            opacity: 0,
+            animation: `popIn 0.7s ease-out ${g.delay}s forwards, float 4s ease-in-out ${g.delay + 0.7}s infinite`,
+          }}
+        >
+          <svg viewBox="0 0 24 24" style={{ width: "100%", height: "100%" }}>
+            <polygon
+              points="12,2 22,9 12,22 2,9"
+              fill={g.color}
+              opacity="0.9"
+              style={{ filter: `drop-shadow(0 0 6px ${g.color})` }}
+            />
+          </svg>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SnMonogram({ size = 90 }: { size?: number }) {
+  return (
+    <div className="sn-monogram">
+      <svg width={size} height={size} viewBox="0 0 160 160">
+        <defs>
+          <linearGradient id="snGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fff7d6" />
+            <stop offset="25%" stopColor="#f3d27a" />
+            <stop offset="50%" stopColor="#c9932f" />
+            <stop offset="75%" stopColor="#f3d27a" />
+            <stop offset="100%" stopColor="#8a6416" />
+          </linearGradient>
+          <filter id="snShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.5" />
+          </filter>
+        </defs>
+        <text
+          x="80"
+          y="100"
+          textAnchor="middle"
+          fontFamily="'Playfair Display', 'Georgia', serif"
+          fontStyle="italic"
+          fontWeight="700"
+          fontSize="72"
+          fill="url(#snGradient)"
+          filter="url(#snShadow)"
+          stroke="#5c430f"
+          strokeWidth="0.5"
+        >
+          SN
+        </text>
+      </svg>
+    </div>
+  );
+}
+
 export default function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [showWelcome, setShowWelcome] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (identifier && password) {
       localStorage.setItem("isLoggedIn", "true");
-      navigate("/");
+      setShowWelcome(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 2200);
     }
   };
 
   const brandName = "NERUSU JEWELS";
 
+  // Welcome transition screen — shown briefly after successful login
+  if (showWelcome) {
+    return (
+      <div className="login-page">
+        <GemBackground />
+        <div className="content-column">
+          <SnMonogram size={110} />
+          <h1 className="welcome-text">Welcome to Nerusu Jewels</h1>
+        </div>
+        <style>{globalStyles}</style>
+      </div>
+    );
+  }
+
   return (
     <div className="login-page">
-      {/* Full-page animated background */}
-      <div className="bg-animation">
-        {stars.map((s, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              top: s.top,
-              left: s.left,
-              width: s.size,
-              height: s.size,
-              borderRadius: "50%",
-              backgroundColor: "#fff",
-              opacity: 0,
-              animation: `twinkle 2.5s ease-in-out ${s.delay}s infinite`,
-            }}
-          />
-        ))}
+      <GemBackground />
 
-        {gems.map((g, i) => (
-          <div
-            key={i}
-            className="gem"
-            style={{
-              top: g.top,
-              left: g.left,
-              width: g.size,
-              height: g.size,
-              opacity: 0,
-              animation: `popIn 0.7s ease-out ${g.delay}s forwards, float 4s ease-in-out ${g.delay + 0.7}s infinite`,
-            }}
-          >
-            <svg viewBox="0 0 24 24" style={{ width: "100%", height: "100%" }}>
-              <polygon
-                points="12,2 22,9 12,22 2,9"
-                fill={g.color}
-                opacity="0.9"
-                style={{ filter: `drop-shadow(0 0 6px ${g.color})` }}
-              />
-            </svg>
-          </div>
-        ))}
-      </div>
-
-      {/* Centered content: logo → form → brand name */}
       <div className="content-column">
-        <div className="sn-monogram">
-          <svg width="90" height="90" viewBox="0 0 160 160">
-            <defs>
-              <linearGradient id="snGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#fff7d6" />
-                <stop offset="25%" stopColor="#f3d27a" />
-                <stop offset="50%" stopColor="#c9932f" />
-                <stop offset="75%" stopColor="#f3d27a" />
-                <stop offset="100%" stopColor="#8a6416" />
-              </linearGradient>
-              <filter id="snShadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.5" />
-              </filter>
-            </defs>
-            <text
-              x="80"
-              y="100"
-              textAnchor="middle"
-              fontFamily="'Playfair Display', 'Georgia', serif"
-              fontStyle="italic"
-              fontWeight="700"
-              fontSize="72"
-              fill="url(#snGradient)"
-              filter="url(#snShadow)"
-              stroke="#5c430f"
-              strokeWidth="0.5"
-            >
-              SN
-            </text>
-          </svg>
-        </div>
+        <SnMonogram />
 
         <form onSubmit={handleSubmit} className="login-form">
           <h2 style={{ fontSize: "22px", fontWeight: 700, color: "#111", textAlign: "center", margin: 0 }}>
@@ -184,98 +211,113 @@ export default function Login() {
         </h1>
       </div>
 
-      <style>{`
-        .login-page {
-          position: relative;
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          background: radial-gradient(circle at center, #3b0764 0%, #1e0836 35%, #000 75%);
-        }
-
-        .bg-animation {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-        }
-
-        .gem {
-          position: absolute;
-        }
-
-        .content-column {
-          position: relative;
-          z-index: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 20px;
-          padding: 24px;
-        }
-
-        .sn-monogram {
-          opacity: 0;
-          animation: diamondFade 1.2s ease-out 0.3s forwards, pulse 3s ease-in-out 1.5s infinite;
-        }
-
-        .login-form {
-          width: 100%;
-          max-width: 360px;
-          background: rgba(255, 255, 255, 0.97);
-          border: 1px solid rgba(255,255,255,0.3);
-          border-radius: 8px;
-          padding: 32px 28px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-        }
-
-        .brand-text {
-          display: flex;
-          gap: 2px;
-          font-size: 20px;
-          font-weight: 700;
-          letter-spacing: 4px;
-          color: #fff;
-          margin: 0;
-          white-space: nowrap;
-        }
-
-        @media (max-width: 480px) {
-          .sn-monogram svg { width: 70px; height: 70px; }
-          .brand-text { font-size: 14px; letter-spacing: 2px; }
-          .login-form { padding: 24px 20px; }
-        }
-
-        @keyframes popIn {
-          0% { opacity: 0; transform: scale(0.4) rotate(-15deg); }
-          70% { opacity: 1; transform: scale(1.15) rotate(5deg); }
-          100% { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-        @keyframes twinkle {
-          0%, 100% { opacity: 0; }
-          50% { opacity: 0.8; }
-        }
-        @keyframes diamondFade {
-          0% { opacity: 0; transform: scale(0.6); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes pulse {
-          0%, 100% { filter: drop-shadow(0 0 15px #d946ef) drop-shadow(0 0 30px #3b82f6); }
-          50% { filter: drop-shadow(0 0 25px #d946ef) drop-shadow(0 0 45px #3b82f6); }
-        }
-        @keyframes letterPop {
-          0% { opacity: 0; transform: translateY(15px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+      <style>{globalStyles}</style>
     </div>
   );
 }
+
+const globalStyles = `
+  .login-page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #3b0764 0%, #1e0836 35%, #000 75%);
+  }
+
+  .bg-animation {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .gem {
+    position: absolute;
+  }
+
+  .content-column {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+  }
+
+  .sn-monogram {
+    opacity: 0;
+    animation: diamondFade 1.2s ease-out 0.3s forwards, pulse 3s ease-in-out 1.5s infinite;
+  }
+
+  .login-form {
+    width: 100%;
+    max-width: 360px;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+
+  .brand-text {
+    display: flex;
+    gap: 2px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #fff;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .welcome-text {
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    opacity: 0;
+    animation: letterPop 0.8s ease-out 0.6s forwards;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    .sn-monogram svg { width: 70px; height: 70px; }
+    .brand-text { font-size: 14px; letter-spacing: 2px; }
+    .login-form { padding: 24px 20px; }
+    .welcome-text { font-size: 20px; }
+  }
+
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.4) rotate(-15deg); }
+    70% { opacity: 1; transform: scale(1.15) rotate(5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.8; }
+  }
+  @keyframes diamondFade {
+    0% { opacity: 0; transform: scale(0.6); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes pulse {
+    0%, 100% { filter: drop-shadow(0 0 15px #d946ef) drop-shadow(0 0 30px #3b82f6); }
+    50% { filter: drop-shadow(0 0 25px #d946ef) drop-shadow(0 0 45px #3b82f6); }
+  }
+  @keyframes letterPop {
+    0% { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+`;
