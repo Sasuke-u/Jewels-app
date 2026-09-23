@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { CreditCard, Zap, DollarSign, Lock, CheckCircle } from "lucide-react";
+import { CreditCard, Zap, DollarSign, Lock } from "lucide-react";
 
 export default function Checkout() {
   const { cart, clearCart } = useCart();
@@ -90,7 +90,7 @@ export default function Checkout() {
           {/* Shipping Section */}
           <div style={{ border: "1px solid #eaeaea", borderRadius: 10, padding: 24, backgroundColor: "#fff" }}>
             <h3 style={{ fontSize: 18, fontWeight: 700, color: "#111", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 24, height: 24, borderRadius: "50%", backgroundColor: "#111", color: "#fff", fontSize: 12, display: "inline-flex", alignItems: "center", justifyCenter: "center", justifyContent: "center" }}>1</span>
+              <span style={{ width: 24, height: 24, borderRadius: "50%", backgroundColor: "#111", color: "#fff", fontSize: 12, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>1</span>
               Shipping Details
             </h3>
 
@@ -160,7 +160,7 @@ export default function Checkout() {
           {/* Payment Method Section */}
           <div style={{ border: "1px solid #eaeaea", borderRadius: 10, padding: 24, backgroundColor: "#fff" }}>
             <h3 style={{ fontSize: 18, fontWeight: 700, color: "#111", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 24, height: 24, borderRadius: "50%", backgroundColor: "#111", color: "#fff", fontSize: 12, display: "inline-flex", alignItems: "center", justifyCenter: "center", justifyContent: "center" }}>2</span>
+              <span style={{ width: 24, height: 24, borderRadius: "50%", backgroundColor: "#111", color: "#fff", fontSize: 12, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>2</span>
               Payment Option
             </h3>
 

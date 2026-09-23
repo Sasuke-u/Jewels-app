@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, ShoppingBag } from "lucide-react";
 
@@ -44,7 +44,7 @@ export default function OrderConfirmation() {
 
   return (
     <div style={{ maxWidth: 650, margin: "60px auto", padding: "0 20px", textAlign: "center" }}>
-      <div style={{ display: "inline-flex", alignItems: "center", justifyCenter: "center", marginBottom: 20 }}>
+      <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
         <CheckCircle size={64} color="#16a34a" />
       </div>
 
