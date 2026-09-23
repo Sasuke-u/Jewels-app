@@ -7,4 +7,11 @@
     opacity: 1;
     transform: translateY(0);
   }
+} /* Added missing closing brace here */
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
 }

@@ -1,6 +1,6 @@
 // src/pages/Login.tsx
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const gems = [
   { top: "8%", left: "10%", size: 40, color: "#c026d3", delay: 0.2 },
@@ -109,6 +109,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showWelcome, setShowWelcome] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const redirectTarget = searchParams.get("redirect") || "/";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,8 +119,8 @@ export default function Login() {
       localStorage.setItem("isLoggedIn", "true");
       setShowWelcome(true);
       setTimeout(() => {
-        navigate("/");
-      }, 2200);
+        navigate(redirectTarget);
+      }, 1800);
     }
   };
 
