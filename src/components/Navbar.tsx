@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
-import logo from "../assets/sn-logo (2).png";
 import cartIcon from "../assets/cart-icon.png";
 
 export default function Navbar() {
@@ -21,20 +20,60 @@ export default function Navbar() {
         backgroundColor: "var(--cream)",
       }}
     >
-      {/* Logo */}
-      <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-        <img
-          src={logo}
-          alt="Nerusu Jewels"
-          style={{ height: "45px", objectFit: "contain" }}
-        />
-      </Link>
+      {/* Left: Brand + greeting */}
+      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <Link
+          to="/"
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: "10px",
+            textDecoration: "none",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "'Jost', sans-serif",
+              fontWeight: 700,
+              fontSize: "26px",
+              color: "var(--champagne)",
+              letterSpacing: "1px",
+            }}
+          >
+            NS
+          </span>
+          <span
+            style={{
+              fontFamily: "'Jost', sans-serif",
+              fontWeight: 500,
+              fontSize: "22px",
+              color: "var(--navy)",
+              letterSpacing: "3px",
+              textTransform: "uppercase",
+            }}
+          >
+            Jewelery
+          </span>
+        </Link>
 
-      {/* Navigation Items */}
+        {user && (
+          <span
+            style={{
+              fontSize: "13px",
+              color: "var(--text-muted)",
+              paddingLeft: "16px",
+              borderLeft: "1px solid var(--line)",
+            }}
+          >
+            Hi, {user.name}
+          </span>
+        )}
+      </div>
+
+      {/* Right: Nav items */}
       <div style={{ display: "flex", gap: "28px", alignItems: "center" }}>
         <Link
           to="/"
-          className="brand-font"
           style={{
             textDecoration: "none",
             color: "var(--navy)",
@@ -76,35 +115,30 @@ export default function Navbar() {
         </Link>
 
         {user ? (
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <span style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-              Hi, {user.name}
-            </span>
-            <button
-              onClick={logout}
-              style={{
-                background: "none",
-                border: `1px solid var(--champagne)`,
-                borderRadius: "4px",
-                padding: "6px 14px",
-                cursor: "pointer",
-                fontSize: "12px",
-                fontWeight: 600,
-                color: "var(--navy)",
-                transition: "background-color 0.2s, color 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--navy)";
-                e.currentTarget.style.color = "var(--champagne-light)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "var(--navy)";
-              }}
-            >
-              Logout
-            </button>
-          </div>
+          <button
+            onClick={logout}
+            style={{
+              background: "none",
+              border: `1px solid var(--champagne)`,
+              borderRadius: "4px",
+              padding: "6px 14px",
+              cursor: "pointer",
+              fontSize: "12px",
+              fontWeight: 600,
+              color: "var(--navy)",
+              transition: "background-color 0.2s, color 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "var(--navy)";
+              e.currentTarget.style.color = "var(--champagne-light)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = "var(--navy)";
+            }}
+          >
+            Logout
+          </button>
         ) : (
           <Link
             to="/login"
