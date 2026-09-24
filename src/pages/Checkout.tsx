@@ -71,9 +71,19 @@ export default function Checkout() {
       };
 
       sessionStorage.setItem("latest_order", JSON.stringify(orderData));
-      clearCart();
-      setIsSubmitting(false);
-      navigate("/order-confirmation");
+
+// Save to this user's permanent order history
+if (shipping.email) {
+  const existingOrders = JSON.parse(
+    localStorage.getItem(`nj_orders_${shipping.email}`) || "[]"
+  );
+  existingOrders.push(orderData);
+  localStorage.setItem(`nj_orders_${shipping.email}`, JSON.stringify(existingOrders));
+}
+
+clearCart();
+setIsSubmitting(false);
+navigate("/order-confirmation");
     }, 1500);
   };
 
