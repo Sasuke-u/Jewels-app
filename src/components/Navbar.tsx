@@ -71,7 +71,7 @@ export default function Navbar() {
       </div>
 
       {/* Right: Nav items */}
-      <div style={{ display: "flex", gap: "28px", alignItems: "center" }}>
+      <div style={{ display: "flex", gap: "32px", alignItems: "center" }}>
         <Link
           to="/"
           style={{
@@ -83,6 +83,20 @@ export default function Navbar() {
         >
           Home
         </Link>
+
+        {user && (
+          <Link
+            to="/orders"
+            style={{
+              textDecoration: "none",
+              color: "var(--navy)",
+              fontWeight: 500,
+              fontSize: "14px",
+            }}
+          >
+            My Orders
+          </Link>
+        )}
 
         <Link
           to="/cart"

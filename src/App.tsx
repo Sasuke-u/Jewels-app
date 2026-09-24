@@ -7,6 +7,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import ProductDetails from "./pages/ProductDetails";
+import OrderHistory from "./pages/OrderHistory";
 
 export default function App() {
   const location = useLocation();
@@ -44,6 +45,14 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+  path="/orders"
+  element={
+    <ProtectedRoute>
+      <OrderHistory />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
       </main>
     </>
