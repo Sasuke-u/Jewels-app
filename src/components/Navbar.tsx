@@ -16,9 +16,9 @@ export default function Navbar() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "12px 32px",
-        borderBottom: "1px solid #eaeaea",
-        backgroundColor: "#ffffff",
+        padding: "12px 0",
+        borderBottom: "1px solid var(--line)",
+        backgroundColor: "var(--cream)",
       }}
     >
       {/* Logo */}
@@ -31,10 +31,16 @@ export default function Navbar() {
       </Link>
 
       {/* Navigation Items */}
-      <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
+      <div style={{ display: "flex", gap: "28px", alignItems: "center" }}>
         <Link
           to="/"
-          style={{ textDecoration: "none", color: "#333", fontWeight: 600, fontSize: "14px" }}
+          className="brand-font"
+          style={{
+            textDecoration: "none",
+            color: "var(--navy)",
+            fontWeight: 500,
+            fontSize: "14px",
+          }}
         >
           Home
         </Link>
@@ -43,8 +49,8 @@ export default function Navbar() {
           to="/cart"
           style={{
             textDecoration: "none",
-            color: "#333",
-            fontWeight: 600,
+            color: "var(--navy)",
+            fontWeight: 500,
             fontSize: "14px",
             display: "flex",
             alignItems: "center",
@@ -56,8 +62,8 @@ export default function Navbar() {
           {cartItemCount > 0 && (
             <span
               style={{
-                backgroundColor: "#111",
-                color: "#fff",
+                backgroundColor: "var(--navy)",
+                color: "var(--champagne-light)",
                 borderRadius: "50%",
                 padding: "2px 7px",
                 fontSize: "11px",
@@ -70,17 +76,30 @@ export default function Navbar() {
         </Link>
 
         {user ? (
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ fontSize: "14px", color: "#555" }}>Hi, {user.name}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <span style={{ fontSize: "14px", color: "var(--text-muted)" }}>
+              Hi, {user.name}
+            </span>
             <button
               onClick={logout}
               style={{
                 background: "none",
-                border: "1px solid #ccc",
+                border: `1px solid var(--champagne)`,
                 borderRadius: "4px",
-                padding: "4px 10px",
+                padding: "6px 14px",
                 cursor: "pointer",
                 fontSize: "12px",
+                fontWeight: 600,
+                color: "var(--navy)",
+                transition: "background-color 0.2s, color 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--navy)";
+                e.currentTarget.style.color = "var(--champagne-light)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.color = "var(--navy)";
               }}
             >
               Logout
@@ -91,13 +110,16 @@ export default function Navbar() {
             to="/login"
             style={{
               textDecoration: "none",
-              color: "#fff",
-              backgroundColor: "#111",
-              padding: "8px 16px",
-              borderRadius: "6px",
+              color: "var(--champagne-light)",
+              backgroundColor: "var(--navy)",
+              padding: "8px 18px",
+              borderRadius: "4px",
               fontWeight: 600,
               fontSize: "13px",
+              transition: "background-color 0.2s",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--navy-deep)")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--navy)")}
           >
             Log In
           </Link>
