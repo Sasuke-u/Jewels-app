@@ -69,13 +69,6 @@ export default function Navbar() {
           )}
         </Link>
 
-        <Link
-          to="/checkout"
-          style={{ textDecoration: "none", color: "#333", fontWeight: 600, fontSize: "14px" }}
-        >
-          Checkout
-        </Link>
-
         {user ? (
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <span style={{ fontSize: "14px", color: "#555" }}>Hi, {user.name}</span>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ShoppingCart, Check } from "lucide-react";
 import type { Product } from "../types/product";
 
@@ -62,37 +63,43 @@ export default function ProductCard({ product, onAdd }: Props) {
         </div>
       )}
 
-      <div style={{ overflow: "hidden" }}>
-        <img
-          src={product.image}
-          alt={product.title}
-          style={{
-            width: "100%",
-            height: "280px",
-            objectFit: "cover",
-            transition: "transform 0.3s",
-            display: "block",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-        />
-      </div>
+      <Link
+        to={`/product/${product.id}`}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <div style={{ overflow: "hidden" }}>
+          <img
+            src={product.image}
+            alt={product.title}
+            style={{
+              width: "100%",
+              height: "280px",
+              objectFit: "cover",
+              transition: "transform 0.3s",
+              display: "block",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          />
+        </div>
 
-      <div style={{ padding: "20px", display: "flex", flexDirection: "column", flex: 1 }}>
-        <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>
-          {product.title}
-        </h3>
-        <span
-          style={{
-            fontSize: "18px",
-            fontWeight: "bold",
-            marginBottom: "20px",
-            color: "#111",
-          }}
-        >
-          ${product.price.toFixed(2)}
-        </span>
+        <div style={{ padding: "20px 20px 0" }}>
+          <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>
+            {product.title}
+          </h3>
+          <span
+            style={{
+              fontSize: "18px",
+              fontWeight: "bold",
+              color: "#111",
+            }}
+          >
+            ${product.price.toFixed(2)}
+          </span>
+        </div>
+      </Link>
 
+      <div style={{ padding: "20px", paddingTop: "20px", display: "flex", flexDirection: "column", flex: 1 }}>
         <button
           onClick={handleAdd}
           disabled={justAdded}

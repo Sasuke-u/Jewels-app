@@ -1,19 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const total = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
   const handleCheckout = () => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (isLoggedIn) {
+    if (user) {
       navigate("/checkout");
     } else {
-      navigate("/login?redirect=/checkout");
+      navigate("/login", { state: { from: "/checkout" } });
     }
   };
 

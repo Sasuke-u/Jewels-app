@@ -13,6 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const redirectTo = location.state?.from || "/";
+  const cameFromCheckout = location.state?.from === "/checkout";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +27,24 @@ export default function Login() {
       <h2 style={{ fontSize: 24, fontWeight: 700, textAlign: "center", marginBottom: 8 }}>
         {mode === "login" ? "Welcome Back" : "Create an Account"}
       </h2>
+
+      {cameFromCheckout && (
+        <div
+          style={{
+            backgroundColor: "#fff7e6",
+            border: "1px solid #f0c36d",
+            borderRadius: 8,
+            padding: "12px 16px",
+            marginBottom: 20,
+            fontSize: 13,
+            color: "#8a6100",
+            textAlign: "center",
+          }}
+        >
+          You're browsing as a guest. Please log in or sign up to continue to checkout.
+        </div>
+      )}
+
       <p style={{ textAlign: "center", color: "#777", fontSize: 14, marginBottom: 28 }}>
         {mode === "login"
           ? "Log in to continue to checkout"
