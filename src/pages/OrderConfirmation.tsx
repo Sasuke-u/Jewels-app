@@ -48,30 +48,30 @@ export default function OrderConfirmation() {
         <CheckCircle size={64} color="#16a34a" />
       </div>
 
-      <h1 style={{ fontSize: 32, fontWeight: 800, color: "#111", margin: "0 0 8px", fontFamily: "'Playfair Display', serif" }}>
+      <h1 style={{ fontSize: 32, fontWeight: 700, color: "var(--navy)", margin: "0 0 8px", fontFamily: "'Jost', sans-serif", letterSpacing: 1 }}>
         ORDER PLACED
       </h1>
-      <p style={{ color: "#666", fontSize: 15, marginBottom: 32 }}>
-        Thank you for your purchase! Order receipt sent to <strong>{order.shipping.email}</strong>.
+      <p style={{ color: "var(--text-muted)", fontSize: 15, marginBottom: 32 }}>
+        Thank you for your purchase! Order receipt sent to <strong style={{ color: "var(--navy)" }}>{order.shipping.email}</strong>.
       </p>
 
-      <div style={{ border: "1px solid #eaeaea", borderRadius: 12, padding: 24, backgroundColor: "#fff", textAlign: "left", marginBottom: 32 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #eee", paddingBottom: 14, marginBottom: 16, fontSize: 13, color: "#555" }}>
+      <div style={{ border: "1px solid var(--line)", borderRadius: 12, padding: 24, backgroundColor: "#fff", textAlign: "left", marginBottom: 32 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid var(--line)", paddingBottom: 14, marginBottom: 16, fontSize: 13, color: "var(--text-muted)" }}>
           <div>
-            <span style={{ color: "#888", display: "block" }}>Order Reference</span>
-            <strong style={{ fontSize: 15, color: "#111" }}>{order.orderId}</strong>
+            <span style={{ color: "var(--text-muted)", display: "block" }}>Order Reference</span>
+            <strong style={{ fontSize: 15, color: "var(--navy)" }}>{order.orderId}</strong>
           </div>
           <div>
-            <span style={{ color: "#888", display: "block" }}>Date</span>
-            <strong style={{ color: "#111" }}>{order.date}</strong>
+            <span style={{ color: "var(--text-muted)", display: "block" }}>Date</span>
+            <strong style={{ color: "var(--navy)" }}>{order.date}</strong>
           </div>
           <div>
-            <span style={{ color: "#888", display: "block" }}>Payment Method</span>
-            <strong style={{ color: "#111" }}>{order.paymentMethod}</strong>
+            <span style={{ color: "var(--text-muted)", display: "block" }}>Payment Method</span>
+            <strong style={{ color: "var(--navy)" }}>{order.paymentMethod}</strong>
           </div>
         </div>
 
-        <h4 style={{ fontSize: 14, fontWeight: 700, color: "#111", marginBottom: 12, textTransform: "uppercase", letterSpacing: 0.5 }}>
+        <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--navy)", marginBottom: 12, textTransform: "uppercase", letterSpacing: 0.5 }}>
           Items Purchased ({order.items.length})
         </h4>
 
@@ -80,17 +80,17 @@ export default function OrderConfirmation() {
             <div key={item.product.id} style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <img src={item.product.image} alt={item.product.title} style={{ width: 48, height: 48, objectFit: "cover", borderRadius: 6 }} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "#111" }}>{item.product.title}</div>
-                <div style={{ fontSize: 12, color: "#777" }}>Qty: {item.quantity}</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: "var(--navy)" }}>{item.product.title}</div>
+                <div style={{ fontSize: 12, color: "var(--text-muted)" }}>Qty: {item.quantity}</div>
               </div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "var(--champagne)" }}>
                 ${(item.product.price * item.quantity).toFixed(2)}
               </div>
             </div>
           ))}
         </div>
 
-        <div style={{ borderTop: "1px solid #eee", paddingTop: 14, display: "flex", justifyContent: "space-between", fontSize: 16, fontWeight: 800, color: "#111" }}>
+        <div style={{ borderTop: "1px solid var(--line)", paddingTop: 14, display: "flex", justifyContent: "space-between", fontSize: 16, fontWeight: 800, color: "var(--navy)" }}>
           <span>Grand Total Paid</span>
           <span>${order.grandTotal.toFixed(2)}</span>
         </div>
@@ -102,8 +102,8 @@ export default function OrderConfirmation() {
           display: "inline-flex",
           alignItems: "center",
           gap: 8,
-          backgroundColor: "#111",
-          color: "#fff",
+          backgroundColor: "var(--navy)",
+          color: "var(--champagne-light)",
           padding: "14px 32px",
           borderRadius: 6,
           fontWeight: 700,

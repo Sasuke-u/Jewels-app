@@ -13,8 +13,8 @@ export default function CategoryBar({ active, onSelect, categories }: Props) {
         gap: 32,
         flexWrap: "wrap",
         padding: "14px 20px",
-        borderBottom: "1px solid #eee",
-        background: "#fff",
+        borderBottom: "1px solid var(--line)",
+        background: "var(--cream)",
       }}
     >
       <button
@@ -24,8 +24,9 @@ export default function CategoryBar({ active, onSelect, categories }: Props) {
           border: "none",
           cursor: "pointer",
           fontWeight: active === "All" ? 700 : 500,
-          color: active === "All" ? "var(--gold)" : "#2b2b2b",
+          color: active === "All" ? "var(--navy)" : "var(--text-muted)",
           fontSize: 14,
+          fontFamily: "'Inter', sans-serif",
         }}
       >
         All Jewellery
@@ -39,8 +40,9 @@ export default function CategoryBar({ active, onSelect, categories }: Props) {
             border: "none",
             cursor: "pointer",
             fontWeight: active === c ? 700 : 500,
-            color: active === c ? "var(--gold)" : "#2b2b2b",
+            color: active === c ? "var(--navy)" : "var(--text-muted)",
             fontSize: 14,
+            fontFamily: "'Inter', sans-serif",
           }}
         >
           {c}

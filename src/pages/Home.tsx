@@ -31,14 +31,22 @@ export default function Home() {
           padding: "70px 20px",
           margin: "24px 0 0",
           borderRadius: 16,
-          background: "linear-gradient(135deg, #2b2b2b, #4a4a4a)",
-          color: "#fff",
+          background: "linear-gradient(135deg, var(--navy-deep), var(--navy))",
+          color: "var(--cream)",
         }}
       >
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, margin: "0 0 12px" }}>
+        <h1
+          style={{
+            fontFamily: "'Jost', sans-serif",
+            fontWeight: 500,
+            fontSize: 40,
+            margin: "0 0 12px",
+            color: "var(--champagne-light)",
+          }}
+        >
           Timeless Elegance,<br />Handcrafted for You
         </h1>
-        <p style={{ color: "#ddd", marginBottom: 28, fontSize: 16 }}>
+        <p style={{ color: "rgba(247,243,234,0.7)", marginBottom: 28, fontSize: 16 }}>
           Discover our artisan-crafted jewelry collection
         </p>
         <input
@@ -50,9 +58,10 @@ export default function Home() {
             width: "100%",
             maxWidth: 420,
             borderRadius: 30,
-            border: "none",
+            border: "1px solid var(--line)",
             outline: "none",
             fontSize: 15,
+            fontFamily: "'Inter', sans-serif",
           }}
         />
       </div>

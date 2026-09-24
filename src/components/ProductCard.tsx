@@ -23,7 +23,7 @@ export default function ProductCard({ product, onAdd }: Props) {
         backgroundColor: "#fff",
         borderRadius: "8px",
         overflow: "hidden",
-        border: "1px solid #eaeaea",
+        border: "1px solid var(--line)",
         display: "flex",
         flexDirection: "column",
         transition: "transform 0.2s, box-shadow 0.2s",
@@ -31,22 +31,21 @@ export default function ProductCard({ product, onAdd }: Props) {
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-5px)";
-        e.currentTarget.style.boxShadow = "0 10px 20px rgba(0,0,0,0.08)";
+        e.currentTarget.style.boxShadow = "0 10px 20px rgba(10,25,48,0.1)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "translateY(0)";
         e.currentTarget.style.boxShadow = "none";
       }}
     >
-      {/* "Added to Cart" popup */}
       {justAdded && (
         <div
           style={{
             position: "absolute",
             top: "12px",
             right: "12px",
-            backgroundColor: "#111",
-            color: "#fff",
+            backgroundColor: "var(--navy)",
+            color: "var(--champagne-light)",
             padding: "6px 12px",
             borderRadius: "20px",
             fontSize: "12px",
@@ -84,14 +83,23 @@ export default function ProductCard({ product, onAdd }: Props) {
         </div>
 
         <div style={{ padding: "20px 20px 0" }}>
-          <h3 style={{ margin: "0 0 8px 0", fontSize: "16px", fontWeight: "600" }}>
+          <h3
+            style={{
+              margin: "0 0 8px 0",
+              fontSize: "16px",
+              fontWeight: "600",
+              color: "var(--navy)",
+              fontFamily: "'Jost', sans-serif",
+            }}
+          >
             {product.title}
           </h3>
           <span
             style={{
               fontSize: "18px",
               fontWeight: "bold",
-              color: "#111",
+              color: "var(--champagne)",
+              fontFamily: "'Inter', sans-serif",
             }}
           >
             ${product.price.toFixed(2)}
@@ -105,8 +113,8 @@ export default function ProductCard({ product, onAdd }: Props) {
           disabled={justAdded}
           style={{
             marginTop: "auto",
-            backgroundColor: justAdded ? "#2e7d32" : "#111",
-            color: "#fff",
+            backgroundColor: justAdded ? "#2e7d32" : "var(--navy)",
+            color: "var(--champagne-light)",
             border: "none",
             padding: "12px",
             borderRadius: "4px",
@@ -119,10 +127,10 @@ export default function ProductCard({ product, onAdd }: Props) {
             transition: "background-color 0.2s",
           }}
           onMouseEnter={(e) => {
-            if (!justAdded) e.currentTarget.style.backgroundColor = "#444";
+            if (!justAdded) e.currentTarget.style.backgroundColor = "var(--navy-deep)";
           }}
           onMouseLeave={(e) => {
-            if (!justAdded) e.currentTarget.style.backgroundColor = "#111";
+            if (!justAdded) e.currentTarget.style.backgroundColor = "var(--navy)";
           }}
         >
           {justAdded ? (
