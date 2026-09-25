@@ -9,15 +9,13 @@ export default function Wishlist() {
 
   if (wishlist.length === 0) {
     return (
-      <div style={{ textAlign: "center", marginTop: 80, padding: "0 20px" }}>
+      <div className="wishlist-empty">
         <Heart size={48} color="var(--gold)" style={{ marginBottom: 16 }} />
-        <h2 style={{ fontSize: 22, color: "var(--ivory)", marginBottom: 8 }}>
-          Your wishlist is empty
-        </h2>
-        <p style={{ color: "var(--text-muted)", marginBottom: 24, fontSize: 14 }}>
+        <h2 className="wishlist-empty-title">Your wishlist is empty</h2>
+        <p className="wishlist-empty-text">
           Save pieces you love by tapping the heart icon on any product.
         </p>
-        <Link to="/" className="btn-gold" style={{ textDecoration: "none", display: "inline-block" }}>
+        <Link to="/" className="btn-gold wishlist-empty-link">
           Browse Collection
         </Link>
       </div>
@@ -25,123 +23,41 @@ export default function Wishlist() {
   }
 
   return (
-    <div style={{ padding: "20px 0 60px" }}>
-      <h2 style={{ fontSize: 28, fontWeight: 500, color: "var(--ivory)", marginBottom: 24 }}>
-        My Wishlist ({wishlist.length})
-      </h2>
+    <div className="wishlist-page">
+      <h2 className="wishlist-title">My Wishlist ({wishlist.length})</h2>
 
-      <div
-        style={{
-          display: "grid",
-          gap: 24,
-          gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-        }}
-      >
+      <div className="wishlist-grid">
         {wishlist.map((product) => (
-          <div key={product.id} className="product-card" style={{ position: "relative" }}>
+          <div key={product.id} className="product-card wishlist-card">
             <button
               onClick={() => toggleWishlist(product)}
               aria-label="Remove from wishlist"
-              style={{
-                position: "absolute",
-                top: "14px",
-                right: "14px",
-                zIndex: 10,
-                background: "rgba(9,9,11,0.5)",
-                border: "none",
-                borderRadius: "50%",
-                width: "34px",
-                height: "34px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                backdropFilter: "blur(4px)",
-              }}
+              className="wishlist-heart-btn"
             >
               <Heart size={16} color="var(--gold)" fill="var(--gold)" />
             </button>
 
-            <Link to={`/product/${product.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-              <div style={{ overflow: "hidden", aspectRatio: "1 / 1" }}>
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
+            <Link to={`/product/${product.id}`} className="wishlist-card-link">
+              <div className="wishlist-card-image-wrap">
+                <img src={product.image} alt={product.title} className="wishlist-card-image" />
               </div>
 
-              <div style={{ padding: "18px 18px 0" }}>
-                {product.category && (
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: 600,
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      color: "var(--gold)",
-                    }}
-                  >
-                    {product.category}
-                  </span>
-                )}
-                <h3
-                  style={{
-                    margin: "8px 0 6px",
-                    fontSize: "16px",
-                    fontWeight: "500",
-                    color: "var(--ivory)",
-                    fontFamily: "'Cormorant Garamond', serif",
-                  }}
-                >
-                  {product.title}
-                </h3>
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: "var(--text-muted)",
-                    fontFamily: "'Montserrat', sans-serif",
-                  }}
-                >
-                  ${product.price.toFixed(2)}
-                </span>
+              <div className="wishlist-card-body">
+                {product.category && <span className="wishlist-card-category">{product.category}</span>}
+                <h3 className="wishlist-card-title">{product.title}</h3>
+                <span className="wishlist-card-price">${product.price.toFixed(2)}</span>
               </div>
             </Link>
 
-            <div style={{ padding: "18px", display: "flex", gap: 8 }}>
-              <button
-                onClick={() => addToCart(product)}
-                className="btn-outline-gold"
-                style={{
-                  flex: 1,
-                  fontSize: "11px",
-                  padding: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "6px",
-                }}
-              >
+            <div className="wishlist-card-actions">
+              <button onClick={() => addToCart(product)} className="btn-outline-gold wishlist-add-btn">
                 <ShoppingCart size={14} />
                 Add to Cart
               </button>
               <button
                 onClick={() => toggleWishlist(product)}
                 aria-label="Remove"
-                style={{
-                  width: 38,
-                  border: "1px solid var(--line)",
-                  background: "transparent",
-                  borderRadius: "2px",
-                  color: "var(--text-muted)",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#e05252")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+                className="wishlist-remove-btn"
               >
                 <Trash2 size={14} />
               </button>

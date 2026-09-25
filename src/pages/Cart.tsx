@@ -14,15 +14,11 @@ export default function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div style={{ textAlign: "center", marginTop: 80, padding: "0 20px" }}>
+      <div className="cart-page-empty">
         <ShoppingBag size={48} color="var(--gold)" style={{ marginBottom: 16 }} />
-        <h2 style={{ fontSize: 22, color: "var(--ivory)", marginBottom: 8 }}>
-          Your cart is empty
-        </h2>
-        <p style={{ color: "var(--text-muted)", marginBottom: 24, fontSize: 14 }}>
-          Looks like you haven't added anything yet.
-        </p>
-        <Link to="/" className="btn-gold" style={{ textDecoration: "none", display: "inline-block" }}>
+        <h2 className="cart-page-empty-title">Your cart is empty</h2>
+        <p className="cart-page-empty-text">Looks like you haven't added anything yet.</p>
+        <Link to="/" className="btn-gold cart-page-empty-link">
           Continue Shopping
         </Link>
       </div>
@@ -30,154 +26,69 @@ export default function Cart() {
   }
 
   return (
-    <div style={{ maxWidth: 700, margin: "0 auto", padding: "20px 0 60px" }}>
-      <h2 style={{ fontSize: 28, fontWeight: 500, color: "var(--ivory)", marginBottom: 24 }}>
-        Your Cart
-      </h2>
+    <div className="cart-page">
+      <h2 className="cart-page-title">Your Cart</h2>
 
-      <div style={{ border: "1px solid var(--line)", borderRadius: 6, overflow: "hidden" }}>
+      <div className="cart-page-list">
         {cart.map((item, idx) => (
           <div
             key={item.product.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 16,
-              padding: "16px 20px",
-              borderBottom: idx < cart.length - 1 ? "1px solid var(--line)" : "none",
-              backgroundColor: "var(--charcoal)",
-            }}
+            className="cart-page-row"
+            style={{ borderBottom: idx < cart.length - 1 ? "1px solid var(--line)" : "none" }}
           >
-            <Link
-              to={`/product/${item.product.id}`}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 16,
-                flex: 1,
-                minWidth: 0,
-                textDecoration: "none",
-                color: "inherit",
-              }}
-            >
-              <img
-                src={item.product.image}
-                alt={item.product.title}
-                style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 4, flexShrink: 0 }}
-              />
-
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontWeight: 500, fontSize: 15, color: "var(--ivory)", marginBottom: 4, fontFamily: "'Cormorant Garamond', serif" }}>
-                  {item.product.title}
-                </div>
-                <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
-                  ${item.product.price.toFixed(2)} each
-                </div>
+            <Link to={`/product/${item.product.id}`} className="cart-page-item-link">
+              <img src={item.product.image} alt={item.product.title} className="cart-page-item-image" />
+              <div className="cart-page-item-info">
+                <div className="cart-page-item-title">{item.product.title}</div>
+                <div className="cart-page-item-unit-price">${item.product.price.toFixed(2)} each</div>
               </div>
             </Link>
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                border: "1px solid var(--line)",
-                borderRadius: 4,
-                overflow: "hidden",
-                flexShrink: 0,
-              }}
-            >
-              <button
-                onClick={() => updateQuantity(item.product.id, -1)}
-                style={{
-                  width: 28,
-                  height: 28,
-                  border: "none",
-                  backgroundColor: "var(--charcoal-light)",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "var(--ivory)",
-                }}
-              >
-                <Minus size={14} />
-              </button>
-              <span style={{ minWidth: 28, textAlign: "center", fontSize: 14, fontWeight: 600, color: "var(--ivory)" }}>
-                {item.quantity}
+            <div className="cart-page-row-controls">
+              <div className="cart-page-qty-stepper">
+                <button
+                  onClick={() => updateQuantity(item.product.id, -1)}
+                  className="cart-page-qty-btn"
+                  aria-label="Decrease quantity"
+                >
+                  <Minus size={14} />
+                </button>
+                <span className="cart-page-qty-value">{item.quantity}</span>
+                <button
+                  onClick={() => updateQuantity(item.product.id, 1)}
+                  className="cart-page-qty-btn"
+                  aria-label="Increase quantity"
+                >
+                  <Plus size={14} />
+                </button>
+              </div>
+
+              <span className="cart-page-line-price">
+                ${(item.product.price * item.quantity).toFixed(2)}
               </span>
+
               <button
-                onClick={() => updateQuantity(item.product.id, 1)}
-                style={{
-                  width: 28,
-                  height: 28,
-                  border: "none",
-                  backgroundColor: "var(--charcoal-light)",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "var(--ivory)",
-                }}
+                onClick={() => removeFromCart(item.product.id)}
+                className="cart-page-remove-btn"
+                aria-label="Remove item"
               >
-                <Plus size={14} />
+                <Trash2 size={18} />
               </button>
             </div>
-
-            <span style={{ minWidth: 70, textAlign: "right", fontWeight: 700, fontSize: 15, color: "var(--gold)", flexShrink: 0 }}>
-              ${(item.product.price * item.quantity).toFixed(2)}
-            </span>
-
-            <button
-              onClick={() => removeFromCart(item.product.id)}
-              style={{
-                border: "none",
-                backgroundColor: "transparent",
-                cursor: "pointer",
-                color: "var(--text-muted)",
-                display: "flex",
-                alignItems: "center",
-                padding: 4,
-                flexShrink: 0,
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#e05252")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-              aria-label="Remove item"
-            >
-              <Trash2 size={18} />
-            </button>
           </div>
         ))}
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 24,
-          paddingTop: 20,
-          borderTop: "1px solid var(--line)",
-        }}
-      >
-        <span style={{ fontSize: 16, color: "var(--text-muted)" }}>Total</span>
-        <span className="gold-gradient-text" style={{ fontSize: 26, fontWeight: 700 }}>
-          ${total.toFixed(2)}
-        </span>
+      <div className="cart-page-total-row">
+        <span className="cart-page-total-label">Total</span>
+        <span className="gold-gradient-text cart-page-total-value">${total.toFixed(2)}</span>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 24 }}>
-        <button
-          onClick={clearCart}
-          className="btn-outline-gold"
-          style={{ padding: "12px 20px" }}
-        >
+      <div className="cart-page-actions">
+        <button onClick={clearCart} className="btn-outline-gold cart-page-clear-btn">
           Clear Cart
         </button>
-        <button
-          onClick={handleCheckout}
-          className="btn-gold"
-          style={{ flex: 1 }}
-        >
+        <button onClick={handleCheckout} className="btn-gold cart-page-checkout-btn">
           Checkout
         </button>
       </div>

@@ -23,106 +23,72 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: 380, margin: "60px auto", padding: "0 20px" }}>
-      <h2 style={{ fontSize: 24, fontWeight: 700, textAlign: "center", marginBottom: 8 }}>
+    <div className="login-page">
+      <h2 className="login-title">
         {mode === "login" ? "Welcome Back" : "Create an Account"}
       </h2>
 
       {cameFromCheckout && (
-        <div
-          style={{
-            backgroundColor: "#fff7e6",
-            border: "1px solid #f0c36d",
-            borderRadius: 8,
-            padding: "12px 16px",
-            marginBottom: 20,
-            fontSize: 13,
-            color: "#8a6100",
-            textAlign: "center",
-          }}
-        >
+        <div className="login-checkout-banner">
           You're browsing as a guest. Please log in or sign up to continue to checkout.
         </div>
       )}
 
-      <p style={{ textAlign: "center", color: "#777", fontSize: 14, marginBottom: 28 }}>
+      <p className="login-subtitle">
         {mode === "login"
           ? "Log in to continue to checkout"
           : "Sign up to place your order"}
       </p>
 
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: 14 }}
-      >
+      <form onSubmit={handleSubmit} className="login-form">
         {mode === "signup" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "#444" }}>Full Name</label>
+          <div className="login-field">
+            <label className="login-label">Full Name</label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
-              style={{ padding: "10px 12px", border: "1px solid #ddd", borderRadius: 6, fontSize: 14, outline: "none" }}
+              className="login-input"
             />
           </div>
         )}
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <label style={{ fontSize: 12, fontWeight: 600, color: "#444" }}>Email</label>
+        <div className="login-field">
+          <label className="login-label">Email</label>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            style={{ padding: "10px 12px", border: "1px solid #ddd", borderRadius: 6, fontSize: 14, outline: "none" }}
+            className="login-input"
           />
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <label style={{ fontSize: 12, fontWeight: 600, color: "#444" }}>Password</label>
+        <div className="login-field">
+          <label className="login-label">Password</label>
           <input
             type="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
-            style={{ padding: "10px 12px", border: "1px solid #ddd", borderRadius: 6, fontSize: 14, outline: "none" }}
+            className="login-input"
           />
         </div>
 
-        <button
-          type="submit"
-          style={{
-            marginTop: 8,
-            padding: "12px",
-            backgroundColor: "#111",
-            color: "#fff",
-            border: "none",
-            borderRadius: 6,
-            fontWeight: 700,
-            fontSize: 14,
-            cursor: "pointer",
-          }}
-        >
+        <button type="submit" className="login-submit-btn">
           {mode === "login" ? "Log In" : "Sign Up"}
         </button>
       </form>
 
-      <p style={{ textAlign: "center", fontSize: 13, color: "#666", marginTop: 20 }}>
+      <p className="login-toggle-text">
         {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
         <button
           onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          style={{
-            background: "none",
-            border: "none",
-            color: "#111",
-            fontWeight: 700,
-            cursor: "pointer",
-            textDecoration: "underline",
-          }}
+          className="login-toggle-btn"
         >
           {mode === "login" ? "Sign up" : "Log in"}
         </button>
