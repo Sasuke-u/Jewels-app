@@ -2,6 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { jewelryProducts } from "../data/products";
 import { useCart } from "../context/CartContext";
+import TrustBadges from "../components/TrustBadges";
 import { ArrowLeft } from "lucide-react";
 
 export default function ProductDetails() {
@@ -57,6 +58,8 @@ export default function ProductDetails() {
           <button className="btn-gold pdp-add-btn" onClick={handleAdd}>
             {added ? "Added to Cart ✓" : "Add to Cart"}
           </button>
+
+          <TrustBadges />
         </div>
       </div>
 
