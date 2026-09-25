@@ -10,6 +10,7 @@ import OrderConfirmation from "./pages/OrderConfirmation";
 import ProductDetails from "./pages/ProductDetails";
 import OrderHistory from "./pages/OrderHistory";
 import Wishlist from "./pages/Wishlist";
+import Atelier from "./pages/Atelier";
 export default function App() {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/atelier" element={<Atelier />} />
           <Route
             path="/checkout"
             element={

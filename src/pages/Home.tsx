@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import CategoryBar from "../components/CategoryBar";
+import TrustBadges from "../components/TrustBadges";
 import { useCart } from "../context/CartContext";
 import { jewelryProducts, categories } from "../data/products";
 
@@ -29,7 +30,6 @@ export default function Home() {
   } else if (sortBy === "price-high") {
     filtered = [...filtered].sort((a, b) => b.price - a.price);
   } else {
-    // "Popularity" — lower id treated as longer-standing / bestselling item
     filtered = [...filtered].sort((a, b) => a.id - b.id);
   }
 
@@ -71,6 +71,8 @@ export default function Home() {
             className="home-search-input"
           />
         </div>
+
+        <TrustBadges />
 
         {/* Filter & Sort Bar */}
         <div className="filter-bar">

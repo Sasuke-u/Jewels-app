@@ -49,6 +49,10 @@ export default function Navbar() {
               Home
             </Link>
 
+            <Link to="/atelier" className="nav-link">
+              Atelier
+            </Link>
+
             {user && (
               <Link to="/orders" className="nav-link">
                 Orders
@@ -126,6 +130,9 @@ export default function Navbar() {
         <nav className="mobile-nav-links">
           <Link to="/" className="mobile-nav-link" onClick={closeMobileNav}>
             Home
+          </Link>
+          <Link to="/atelier" className="mobile-nav-link" onClick={closeMobileNav}>
+            Atelier
           </Link>
           <Link to="/wishlist" className="mobile-nav-link" onClick={closeMobileNav}>
             Wishlist
