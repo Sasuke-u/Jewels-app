@@ -49,157 +49,51 @@ export default function CartDrawer() {
   return (
     <>
       {/* Backdrop */}
-      <div
-        onClick={closeDrawer}
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundColor: "rgba(9,9,11,0.7)",
-          backdropFilter: "blur(4px)",
-          WebkitBackdropFilter: "blur(4px)",
-          zIndex: 200,
-        }}
-      />
+      <div onClick={closeDrawer} className="cart-drawer-backdrop" />
 
       {/* Drawer */}
-      <div
-        className="glass-surface"
-        style={{
-          position: "fixed",
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: "100%",
-          maxWidth: "420px",
-          backgroundColor: "var(--charcoal)",
-          borderLeft: "1px solid var(--line)",
-          zIndex: 201,
-          display: "flex",
-          flexDirection: "column",
-          animation: "slideInDrawer 0.3s ease-out",
-        }}
-      >
+      <div className="glass-surface cart-drawer">
         {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "22px 24px",
-            borderBottom: "1px solid var(--line)",
-          }}
-        >
-          <h3
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "22px",
-              fontWeight: 500,
-              color: "var(--ivory)",
-              margin: 0,
-            }}
-          >
-            Your Selection ({cart.length})
-          </h3>
-          <button
-            onClick={closeDrawer}
-            aria-label="Close cart"
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--text-muted)",
-              display: "flex",
-              padding: 4,
-            }}
-          >
+        <div className="cart-drawer-header">
+          <h3 className="cart-drawer-title">Your Selection ({cart.length})</h3>
+          <button onClick={closeDrawer} aria-label="Close cart" className="cart-drawer-close">
             <X size={22} />
           </button>
         </div>
 
         {/* Items */}
         {cart.length === 0 ? (
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 40 }}>
+          <div className="cart-drawer-empty">
             <ShoppingBag size={40} color="var(--gold)" style={{ marginBottom: 16 }} />
-            <p style={{ color: "var(--text-muted)", fontSize: 14, textAlign: "center" }}>
-              Your selection is empty.
-            </p>
+            <p className="cart-drawer-empty-text">Your selection is empty.</p>
           </div>
         ) : (
           <>
-            <div style={{ flex: 1, overflowY: "auto", padding: "16px 24px" }}>
+            <div className="cart-drawer-items">
               {cart.map((item) => (
-                <div
-                  key={item.product.id}
-                  style={{
-                    display: "flex",
-                    gap: 14,
-                    padding: "16px 0",
-                    borderBottom: "1px solid var(--line)",
-                  }}
-                >
-                  <img
-                    src={item.product.image}
-                    alt={item.product.title}
-                    style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 4, flexShrink: 0 }}
-                  />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        color: "var(--ivory)",
-                        fontFamily: "'Cormorant Garamond', serif",
-                        marginBottom: 6,
-                      }}
-                    >
-                      {item.product.title}
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          border: "1px solid var(--line)",
-                          borderRadius: 4,
-                        }}
-                      >
+                <div key={item.product.id} className="cart-drawer-item">
+                  <img src={item.product.image} alt={item.product.title} className="cart-drawer-item-image" />
+                  <div className="cart-drawer-item-info">
+                    <div className="cart-drawer-item-title">{item.product.title}</div>
+                    <div className="cart-drawer-item-row">
+                      <div className="cart-drawer-qty-stepper">
                         <button
                           onClick={() => updateQuantity(item.product.id, -1)}
-                          style={{
-                            width: 24,
-                            height: 24,
-                            border: "none",
-                            background: "transparent",
-                            color: "var(--ivory)",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
+                          className="cart-drawer-qty-btn"
+                          aria-label="Decrease quantity"
                         >
                           <Minus size={12} />
                         </button>
-                        <span style={{ minWidth: 22, textAlign: "center", fontSize: 12, color: "var(--ivory)" }}>
-                          {item.quantity}
-                        </span>
+                        <span className="cart-drawer-qty-value">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.product.id, 1)}
-                          style={{
-                            width: 24,
-                            height: 24,
-                            border: "none",
-                            background: "transparent",
-                            color: "var(--ivory)",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
+                          className="cart-drawer-qty-btn"
+                          aria-label="Increase quantity"
                         >
                           <Plus size={12} />
                         </button>
                       </div>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: "var(--gold)" }}>
+                      <span className="cart-drawer-item-price">
                         ${(item.product.price * item.quantity).toFixed(2)}
                       </span>
                     </div>
@@ -207,17 +101,7 @@ export default function CartDrawer() {
                   <button
                     onClick={() => removeFromCart(item.product.id)}
                     aria-label="Remove item"
-                    style={{
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      color: "var(--text-muted)",
-                      display: "flex",
-                      alignSelf: "flex-start",
-                      padding: 2,
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#e05252")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+                    className="cart-drawer-remove-btn"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -226,85 +110,50 @@ export default function CartDrawer() {
             </div>
 
             {/* Promo code */}
-            <div style={{ padding: "0 24px" }}>
-              <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-                <div style={{ flex: 1, display: "flex", alignItems: "center", border: "1px solid var(--line)", borderRadius: 4, padding: "0 10px" }}>
+            <div className="cart-drawer-promo">
+              <div className="cart-drawer-promo-row">
+                <div className="cart-drawer-promo-input-wrap">
                   <Tag size={14} color="var(--text-muted)" style={{ marginRight: 8, flexShrink: 0 }} />
                   <input
                     placeholder="Promo code"
                     value={promoInput}
                     onChange={(e) => setPromoInput(e.target.value)}
-                    style={{
-                      flex: 1,
-                      border: "none",
-                      background: "transparent",
-                      color: "var(--ivory)",
-                      fontSize: 13,
-                      padding: "9px 0",
-                      outline: "none",
-                    }}
+                    className="cart-drawer-promo-input"
                   />
                 </div>
-                <button
-                  onClick={handleApplyPromo}
-                  className="btn-outline-gold"
-                  style={{ padding: "0 16px", fontSize: 11 }}
-                >
+                <button onClick={handleApplyPromo} className="btn-outline-gold cart-drawer-promo-apply">
                   Apply
                 </button>
               </div>
-              {promoError && (
-                <p style={{ color: "#e05252", fontSize: 12, margin: "0 0 8px" }}>{promoError}</p>
-              )}
+              {promoError && <p className="cart-drawer-promo-error">{promoError}</p>}
               {appliedPromo && (
-                <p style={{ color: "#4ade80", fontSize: 12, margin: "0 0 8px" }}>
+                <p className="cart-drawer-promo-success">
                   "{appliedPromo}" applied — {Math.round(discountRate * 100)}% off
                 </p>
               )}
             </div>
 
             {/* Summary */}
-            <div style={{ padding: "16px 24px 24px", borderTop: "1px solid var(--line)" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "var(--text-muted)", marginBottom: 6 }}>
+            <div className="cart-drawer-summary">
+              <div className="cart-drawer-summary-row">
                 <span>Subtotal</span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
               {appliedPromo && (
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#4ade80", marginBottom: 6 }}>
+                <div className="cart-drawer-summary-row cart-drawer-discount-row">
                   <span>Discount</span>
                   <span>-${discount.toFixed(2)}</span>
                 </div>
               )}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "var(--ivory)",
-                  marginTop: 10,
-                  marginBottom: 20,
-                }}
-              >
+              <div className="cart-drawer-summary-total">
                 <span>Total</span>
                 <span className="gold-gradient-text">${total.toFixed(2)}</span>
               </div>
 
-              <button onClick={handleCheckout} className="btn-gold" style={{ width: "100%", marginBottom: 10 }}>
+              <button onClick={handleCheckout} className="btn-gold cart-drawer-checkout-btn">
                 Checkout
               </button>
-              <button
-                onClick={handleViewCart}
-                style={{
-                  width: "100%",
-                  background: "none",
-                  border: "none",
-                  color: "var(--text-muted)",
-                  fontSize: 12,
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                }}
-              >
+              <button onClick={handleViewCart} className="cart-drawer-view-cart-btn">
                 View full cart
               </button>
             </div>
