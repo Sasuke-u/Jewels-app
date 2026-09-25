@@ -15,26 +15,14 @@ export default function Cart() {
   if (cart.length === 0) {
     return (
       <div style={{ textAlign: "center", marginTop: 80, padding: "0 20px" }}>
-        <ShoppingBag size={48} color="var(--champagne)" style={{ marginBottom: 16 }} />
-        <h2 style={{ fontSize: 20, color: "var(--navy)", marginBottom: 8, fontFamily: "'Jost', sans-serif" }}>
+        <ShoppingBag size={48} color="var(--gold)" style={{ marginBottom: 16 }} />
+        <h2 style={{ fontSize: 22, color: "var(--ivory)", marginBottom: 8 }}>
           Your cart is empty
         </h2>
         <p style={{ color: "var(--text-muted)", marginBottom: 24, fontSize: 14 }}>
           Looks like you haven't added anything yet.
         </p>
-        <Link
-          to="/"
-          style={{
-            display: "inline-block",
-            backgroundColor: "var(--navy)",
-            color: "var(--champagne-light)",
-            textDecoration: "none",
-            padding: "12px 28px",
-            borderRadius: 4,
-            fontWeight: 600,
-            fontSize: 14,
-          }}
-        >
+        <Link to="/" className="btn-gold" style={{ textDecoration: "none", display: "inline-block" }}>
           Continue Shopping
         </Link>
       </div>
@@ -43,11 +31,11 @@ export default function Cart() {
 
   return (
     <div style={{ maxWidth: 700, margin: "0 auto", padding: "20px 0 60px" }}>
-      <h2 style={{ fontSize: 26, fontWeight: 700, color: "var(--navy)", marginBottom: 24, fontFamily: "'Jost', sans-serif" }}>
+      <h2 style={{ fontSize: 28, fontWeight: 500, color: "var(--ivory)", marginBottom: 24 }}>
         Your Cart
       </h2>
 
-      <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
+      <div style={{ border: "1px solid var(--line)", borderRadius: 6, overflow: "hidden" }}>
         {cart.map((item, idx) => (
           <div
             key={item.product.id}
@@ -57,7 +45,7 @@ export default function Cart() {
               gap: 16,
               padding: "16px 20px",
               borderBottom: idx < cart.length - 1 ? "1px solid var(--line)" : "none",
-              backgroundColor: "#fff",
+              backgroundColor: "var(--charcoal)",
             }}
           >
             <Link
@@ -75,15 +63,11 @@ export default function Cart() {
               <img
                 src={item.product.image}
                 alt={item.product.title}
-                style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 6, flexShrink: 0 }}
+                style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 4, flexShrink: 0 }}
               />
 
               <div style={{ minWidth: 0 }}>
-                <div
-                  style={{ fontWeight: 600, fontSize: 15, color: "var(--navy)", marginBottom: 4 }}
-                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
-                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
-                >
+                <div style={{ fontWeight: 500, fontSize: 15, color: "var(--ivory)", marginBottom: 4, fontFamily: "'Cormorant Garamond', serif" }}>
                   {item.product.title}
                 </div>
                 <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
@@ -97,7 +81,7 @@ export default function Cart() {
                 display: "flex",
                 alignItems: "center",
                 border: "1px solid var(--line)",
-                borderRadius: 6,
+                borderRadius: 4,
                 overflow: "hidden",
                 flexShrink: 0,
               }}
@@ -108,17 +92,17 @@ export default function Cart() {
                   width: 28,
                   height: 28,
                   border: "none",
-                  backgroundColor: "#fff",
+                  backgroundColor: "var(--charcoal-light)",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "var(--navy)",
+                  color: "var(--ivory)",
                 }}
               >
                 <Minus size={14} />
               </button>
-              <span style={{ minWidth: 28, textAlign: "center", fontSize: 14, fontWeight: 600, color: "var(--navy)" }}>
+              <span style={{ minWidth: 28, textAlign: "center", fontSize: 14, fontWeight: 600, color: "var(--ivory)" }}>
                 {item.quantity}
               </span>
               <button
@@ -127,19 +111,19 @@ export default function Cart() {
                   width: 28,
                   height: 28,
                   border: "none",
-                  backgroundColor: "#fff",
+                  backgroundColor: "var(--charcoal-light)",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "var(--navy)",
+                  color: "var(--ivory)",
                 }}
               >
                 <Plus size={14} />
               </button>
             </div>
 
-            <span style={{ minWidth: 70, textAlign: "right", fontWeight: 700, fontSize: 15, color: "var(--champagne)", flexShrink: 0 }}>
+            <span style={{ minWidth: 70, textAlign: "right", fontWeight: 700, fontSize: 15, color: "var(--gold)", flexShrink: 0 }}>
               ${(item.product.price * item.quantity).toFixed(2)}
             </span>
 
@@ -155,7 +139,7 @@ export default function Cart() {
                 padding: 4,
                 flexShrink: 0,
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#d90000")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#e05252")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
               aria-label="Remove item"
             >
@@ -176,7 +160,7 @@ export default function Cart() {
         }}
       >
         <span style={{ fontSize: 16, color: "var(--text-muted)" }}>Total</span>
-        <span style={{ fontSize: 24, fontWeight: 800, color: "var(--navy)" }}>
+        <span className="gold-gradient-text" style={{ fontSize: 26, fontWeight: 700 }}>
           ${total.toFixed(2)}
         </span>
       </div>
@@ -184,34 +168,15 @@ export default function Cart() {
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 24 }}>
         <button
           onClick={clearCart}
-          style={{
-            backgroundColor: "transparent",
-            border: "1px solid var(--line)",
-            color: "var(--text-muted)",
-            padding: "12px 20px",
-            borderRadius: 4,
-            fontWeight: 600,
-            fontSize: 14,
-            cursor: "pointer",
-          }}
+          className="btn-outline-gold"
+          style={{ padding: "12px 20px" }}
         >
           Clear Cart
         </button>
         <button
           onClick={handleCheckout}
-          style={{
-            flex: 1,
-            backgroundColor: "var(--navy)",
-            color: "var(--champagne-light)",
-            fontWeight: 700,
-            fontSize: 14,
-            padding: "12px 20px",
-            borderRadius: 4,
-            border: "none",
-            cursor: "pointer",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--navy-deep)")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--navy)")}
+          className="btn-gold"
+          style={{ flex: 1 }}
         >
           Checkout
         </button>
