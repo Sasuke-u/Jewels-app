@@ -1,27 +1,31 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import { useCartDrawer } from "../context/CartDrawerContext";
 import cartIcon from "../assets/cart-icon.png";
 
 export default function Navbar() {
   const { cart } = useCart();
   const { user, logout } = useAuth();
+  const { openDrawer } = useCartDrawer();
 
   const cartItemCount = cart?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   return (
     <nav
+      className="glass-surface"
       style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "12px 0",
-        borderBottom: "1px solid var(--line)",
-        backgroundColor: "var(--cream)",
+        padding: "16px 32px",
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
       }}
     >
       {/* Left: Brand + greeting */}
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
         <Link
           to="/"
           style={{
@@ -32,11 +36,11 @@ export default function Navbar() {
           }}
         >
           <span
+            className="gold-gradient-text"
             style={{
-              fontFamily: "'Jost', sans-serif",
+              fontFamily: "'Cormorant Garamond', serif",
               fontWeight: 700,
-              fontSize: "26px",
-              color: "var(--champagne)",
+              fontSize: "28px",
               letterSpacing: "1px",
             }}
           >
@@ -44,28 +48,29 @@ export default function Navbar() {
           </span>
           <span
             style={{
-              fontFamily: "'Jost', sans-serif",
-              fontWeight: 500,
-              fontSize: "22px",
-              color: "var(--navy)",
-              letterSpacing: "3px",
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 400,
+              fontSize: "16px",
+              color: "var(--ivory)",
+              letterSpacing: "4px",
               textTransform: "uppercase",
             }}
           >
-            Jewelery
+            Jewels
           </span>
         </Link>
 
         {user && (
           <span
             style={{
-              fontSize: "13px",
+              fontSize: "12px",
               color: "var(--text-muted)",
-              paddingLeft: "16px",
+              paddingLeft: "20px",
               borderLeft: "1px solid var(--line)",
+              letterSpacing: "0.5px",
             }}
           >
-            Hi, {user.name}
+            Welcome, {user.name}
           </span>
         )}
       </div>
@@ -76,9 +81,11 @@ export default function Navbar() {
           to="/"
           style={{
             textDecoration: "none",
-            color: "var(--navy)",
+            color: "var(--ivory)",
             fontWeight: 500,
-            fontSize: "14px",
+            fontSize: "13px",
+            letterSpacing: "1px",
+            textTransform: "uppercase",
           }}
         >
           Home
@@ -89,86 +96,90 @@ export default function Navbar() {
             to="/orders"
             style={{
               textDecoration: "none",
-              color: "var(--navy)",
+              color: "var(--ivory)",
               fontWeight: 500,
-              fontSize: "14px",
+              fontSize: "13px",
+              letterSpacing: "1px",
+              textTransform: "uppercase",
             }}
           >
-            My Orders
+            Orders
           </Link>
         )}
 
+        {/* Wishlist icon (heart) */}
         <Link
-          to="/cart"
+          to="/wishlist"
           style={{
             textDecoration: "none",
-            color: "var(--navy)",
-            fontWeight: 500,
-            fontSize: "14px",
+            color: "var(--ivory)",
+            display: "flex",
+            alignItems: "center",
+            position: "relative",
+          }}
+          aria-label="Wishlist"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M12 21s-7.5-4.6-10-9.1C.5 8.6 2.3 5 6 5c2.1 0 3.6 1.1 6 3.5C14.4 6.1 15.9 5 18 5c3.7 0 5.5 3.6 4 6.9-2.5 4.5-10 9.1-10 9.1z" />
+          </svg>
+        </Link>
+
+        {/* Cart — opens the slide-out drawer */}
+        <button
+          onClick={openDrawer}
+          aria-label="Open cart"
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            color: "var(--ivory)",
             display: "flex",
             alignItems: "center",
             gap: "8px",
+            position: "relative",
+            padding: 0,
+            fontFamily: "'Montserrat', sans-serif",
+            fontSize: "13px",
           }}
         >
-          <img src={cartIcon} alt="Cart" style={{ width: "22px", height: "22px" }} />
-          <span>Cart</span>
+          <img
+            src={cartIcon}
+            alt="Cart"
+            style={{ width: "20px", height: "20px", filter: "invert(1) brightness(2)" }}
+          />
           {cartItemCount > 0 && (
             <span
               style={{
-                backgroundColor: "var(--navy)",
-                color: "var(--champagne-light)",
+                position: "absolute",
+                top: "-8px",
+                right: "-10px",
+                backgroundColor: "var(--gold)",
+                color: "var(--obsidian)",
                 borderRadius: "50%",
-                padding: "2px 7px",
-                fontSize: "11px",
+                width: "16px",
+                height: "16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "10px",
                 fontWeight: 700,
               }}
             >
               {cartItemCount}
             </span>
           )}
-        </Link>
+        </button>
 
         {user ? (
           <button
             onClick={logout}
-            style={{
-              background: "none",
-              border: `1px solid var(--champagne)`,
-              borderRadius: "4px",
-              padding: "6px 14px",
-              cursor: "pointer",
-              fontSize: "12px",
-              fontWeight: 600,
-              color: "var(--navy)",
-              transition: "background-color 0.2s, color 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "var(--navy)";
-              e.currentTarget.style.color = "var(--champagne-light)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = "var(--navy)";
-            }}
+            className="btn-outline-gold"
+            style={{ padding: "8px 18px", fontSize: "11px" }}
           >
             Logout
           </button>
         ) : (
-          <Link
-            to="/login"
-            style={{
-              textDecoration: "none",
-              color: "var(--champagne-light)",
-              backgroundColor: "var(--navy)",
-              padding: "8px 18px",
-              borderRadius: "4px",
-              fontWeight: 600,
-              fontSize: "13px",
-              transition: "background-color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--navy-deep)")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--navy)")}
-          >
+          <Link to="/login" className="btn-gold" style={{ padding: "9px 20px", fontSize: "11px" }}>
             Log In
           </Link>
         )}

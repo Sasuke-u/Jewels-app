@@ -4,14 +4,14 @@ import CategoryBar from "../components/CategoryBar";
 import { useCart } from "../context/CartContext";
 import { jewelryProducts, categories } from "../data/products";
 
-type SortOption = "default" | "price-low" | "price-high";
+type SortOption = "popularity" | "price-low" | "price-high";
 
 export default function Home() {
   const [search, setSearch] = useState<string>("");
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
-  const [sortBy, setSortBy] = useState<SortOption>("default");
+  const [sortBy, setSortBy] = useState<SortOption>("popularity");
   const { addToCart } = useCart();
 
   const categoryNames = categories.map((c) => c.name);
@@ -28,14 +28,36 @@ export default function Home() {
     filtered = [...filtered].sort((a, b) => a.price - b.price);
   } else if (sortBy === "price-high") {
     filtered = [...filtered].sort((a, b) => b.price - a.price);
+  } else {
+    // "Popularity" — lower id treated as longer-standing / bestselling item
+    filtered = [...filtered].sort((a, b) => a.id - b.id);
   }
+
+  const activeFilterCount = [
+    search !== "",
+    activeCategory !== "All",
+    minPrice !== "",
+    maxPrice !== "",
+  ].filter(Boolean).length;
 
   const clearFilters = () => {
     setSearch("");
     setActiveCategory("All");
     setMinPrice("");
     setMaxPrice("");
-    setSortBy("default");
+    setSortBy("popularity");
+  };
+
+  const filterInputStyle = {
+    width: 80,
+    padding: "8px 10px",
+    border: "1px solid var(--line)",
+    borderRadius: 4,
+    fontSize: 13,
+    outline: "none",
+    backgroundColor: "var(--charcoal)",
+    color: "var(--ivory)",
+    fontFamily: "'Montserrat', sans-serif",
   };
 
   return (
@@ -51,23 +73,23 @@ export default function Home() {
           textAlign: "center",
           padding: "70px 20px",
           margin: "24px 0 0",
-          borderRadius: 16,
-          background: "linear-gradient(135deg, var(--navy-deep), var(--navy))",
-          color: "var(--cream)",
+          borderRadius: 6,
+          background: "linear-gradient(135deg, var(--charcoal), var(--obsidian))",
+          border: "1px solid var(--line)",
         }}
       >
         <h1
           style={{
-            fontFamily: "'Jost', sans-serif",
+            fontFamily: "'Cormorant Garamond', serif",
             fontWeight: 500,
-            fontSize: 40,
+            fontSize: 44,
             margin: "0 0 12px",
-            color: "var(--champagne-light)",
+            color: "var(--ivory)",
           }}
         >
           Timeless Elegance,<br />Handcrafted for You
         </h1>
-        <p style={{ color: "rgba(247,243,234,0.7)", marginBottom: 28, fontSize: 16 }}>
+        <p style={{ color: "var(--text-muted)", marginBottom: 28, fontSize: 15, fontFamily: "'Montserrat', sans-serif" }}>
           Discover our artisan-crafted jewelry collection
         </p>
         <input
@@ -78,11 +100,13 @@ export default function Home() {
             padding: "14px 24px",
             width: "100%",
             maxWidth: 420,
-            borderRadius: 30,
+            borderRadius: 2,
             border: "1px solid var(--line)",
             outline: "none",
-            fontSize: 15,
-            fontFamily: "'Inter', sans-serif",
+            fontSize: 14,
+            backgroundColor: "var(--charcoal)",
+            color: "var(--ivory)",
+            fontFamily: "'Montserrat', sans-serif",
           }}
         />
       </div>
@@ -105,14 +129,7 @@ export default function Home() {
             placeholder="Min"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
-            style={{
-              width: 80,
-              padding: "8px 10px",
-              border: "1px solid var(--line)",
-              borderRadius: 4,
-              fontSize: 13,
-              outline: "none",
-            }}
+            style={filterInputStyle}
           />
           <span style={{ color: "var(--text-muted)", fontSize: 13 }}>–</span>
           <input
@@ -120,14 +137,7 @@ export default function Home() {
             placeholder="Max"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
-            style={{
-              width: 80,
-              padding: "8px 10px",
-              border: "1px solid var(--line)",
-              borderRadius: 4,
-              fontSize: 13,
-              outline: "none",
-            }}
+            style={filterInputStyle}
           />
         </div>
 
@@ -141,26 +151,42 @@ export default function Home() {
               border: "1px solid var(--line)",
               borderRadius: 4,
               fontSize: 13,
-              color: "var(--navy)",
+              color: "var(--ivory)",
               outline: "none",
-              backgroundColor: "#fff",
+              backgroundColor: "var(--charcoal)",
               cursor: "pointer",
+              fontFamily: "'Montserrat', sans-serif",
             }}
           >
-            <option value="default">Featured</option>
+            <option value="popularity">Popularity</option>
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
           </select>
         </div>
 
-        {(search || activeCategory !== "All" || minPrice || maxPrice || sortBy !== "default") && (
+        {activeFilterCount > 0 && (
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: "var(--obsidian)",
+              backgroundColor: "var(--gold)",
+              padding: "3px 9px",
+              borderRadius: 20,
+            }}
+          >
+            {activeFilterCount} active
+          </span>
+        )}
+
+        {activeFilterCount > 0 && (
           <button
             onClick={clearFilters}
             style={{
               marginLeft: "auto",
               background: "none",
               border: "none",
-              color: "var(--champagne)",
+              color: "var(--gold)",
               fontSize: 13,
               fontWeight: 600,
               cursor: "pointer",
@@ -177,19 +203,7 @@ export default function Home() {
           <p style={{ fontSize: 16, color: "var(--text-muted)", marginBottom: 16 }}>
             No products found matching your filters.
           </p>
-          <button
-            onClick={clearFilters}
-            style={{
-              backgroundColor: "var(--navy)",
-              color: "var(--champagne-light)",
-              border: "none",
-              padding: "10px 24px",
-              borderRadius: 4,
-              fontWeight: 600,
-              fontSize: 14,
-              cursor: "pointer",
-            }}
-          >
+          <button onClick={clearFilters} className="btn-gold">
             Clear Filters
           </button>
         </div>

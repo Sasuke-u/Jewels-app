@@ -30,28 +30,14 @@ export default function OrderHistory() {
   if (orders.length === 0) {
     return (
       <div style={{ textAlign: "center", marginTop: 80, padding: "0 20px" }}>
-        <Package size={48} color="var(--champagne)" style={{ marginBottom: 16 }} />
-        <h2 style={{ fontSize: 20, color: "var(--navy)", marginBottom: 8, fontFamily: "'Jost', sans-serif" }}>
+        <Package size={48} color="var(--gold)" style={{ marginBottom: 16 }} />
+        <h2 style={{ fontSize: 22, color: "var(--ivory)", marginBottom: 8 }}>
           No orders yet
         </h2>
         <p style={{ color: "var(--text-muted)", marginBottom: 24, fontSize: 14 }}>
           Your past orders will show up here once you make a purchase.
         </p>
-        <Link
-          to="/"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            backgroundColor: "var(--navy)",
-            color: "var(--champagne-light)",
-            textDecoration: "none",
-            padding: "12px 28px",
-            borderRadius: 4,
-            fontWeight: 600,
-            fontSize: 14,
-          }}
-        >
+        <Link to="/" className="btn-gold" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8 }}>
           <ShoppingBag size={16} />
           Start Shopping
         </Link>
@@ -61,7 +47,7 @@ export default function OrderHistory() {
 
   return (
     <div style={{ maxWidth: 700, margin: "0 auto", padding: "20px 0 60px" }}>
-      <h2 style={{ fontSize: 26, fontWeight: 700, color: "var(--navy)", marginBottom: 24, fontFamily: "'Jost', sans-serif" }}>
+      <h2 style={{ fontSize: 28, fontWeight: 500, color: "var(--ivory)", marginBottom: 24 }}>
         My Orders
       </h2>
 
@@ -71,9 +57,9 @@ export default function OrderHistory() {
             key={order.orderId}
             style={{
               border: "1px solid var(--line)",
-              borderRadius: 10,
+              borderRadius: 6,
               padding: 20,
-              backgroundColor: "#fff",
+              backgroundColor: "var(--charcoal)",
             }}
           >
             <div
@@ -87,16 +73,16 @@ export default function OrderHistory() {
               }}
             >
               <div>
-                <span style={{ fontSize: 12, color: "var(--text-muted)", display: "block" }}>
+                <span style={{ fontSize: 11, color: "var(--text-muted)", display: "block", letterSpacing: "0.5px", textTransform: "uppercase" }}>
                   Order Reference
                 </span>
-                <strong style={{ fontSize: 15, color: "var(--navy)" }}>{order.orderId}</strong>
+                <strong style={{ fontSize: 15, color: "var(--gold)" }}>{order.orderId}</strong>
               </div>
               <div style={{ textAlign: "right" }}>
-                <span style={{ fontSize: 12, color: "var(--text-muted)", display: "block" }}>
+                <span style={{ fontSize: 11, color: "var(--text-muted)", display: "block", letterSpacing: "0.5px", textTransform: "uppercase" }}>
                   Date
                 </span>
-                <strong style={{ fontSize: 14, color: "var(--navy)" }}>{order.date}</strong>
+                <strong style={{ fontSize: 14, color: "var(--ivory)" }}>{order.date}</strong>
               </div>
             </div>
 
@@ -106,17 +92,17 @@ export default function OrderHistory() {
                   <img
                     src={item.product.image}
                     alt={item.product.title}
-                    style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 6 }}
+                    style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 4 }}
                   />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: "var(--navy)" }}>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--ivory)", fontFamily: "'Cormorant Garamond', serif" }}>
                       {item.product.title}
                     </div>
                     <div style={{ fontSize: 12, color: "var(--text-muted)" }}>
                       Qty: {item.quantity}
                     </div>
                   </div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "var(--champagne)" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "var(--gold)" }}>
                     ${(item.product.price * item.quantity).toFixed(2)}
                   </div>
                 </div>
@@ -135,7 +121,7 @@ export default function OrderHistory() {
               <span style={{ fontSize: 12, color: "var(--text-muted)" }}>
                 Paid via {order.paymentMethod}
               </span>
-              <span style={{ fontSize: 16, fontWeight: 800, color: "var(--navy)" }}>
+              <span style={{ fontSize: 16, fontWeight: 800, color: "var(--ivory)" }}>
                 ${order.grandTotal.toFixed(2)}
               </span>
             </div>

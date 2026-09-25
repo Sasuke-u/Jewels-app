@@ -5,14 +5,20 @@ import "./index.css";
 import App from "./App.tsx";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { WishlistProvider } from "./context/WishlistContext";
+import { CartDrawerProvider } from "./context/CartDrawerContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <WishlistProvider>
+          <CartProvider>
+            <CartDrawerProvider>
+              <App />
+            </CartDrawerProvider>
+          </CartProvider>
+        </WishlistProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

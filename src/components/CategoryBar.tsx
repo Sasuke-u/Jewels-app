@@ -5,6 +5,21 @@ interface Props {
 }
 
 export default function CategoryBar({ active, onSelect, categories }: Props) {
+  const tabStyle = (isActive: boolean) => ({
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    fontWeight: isActive ? 600 : 400,
+    color: isActive ? "var(--gold)" : "var(--text-muted)",
+    fontSize: 13,
+    letterSpacing: "1px",
+    textTransform: "uppercase" as const,
+    fontFamily: "'Montserrat', sans-serif",
+    padding: "0 0 8px",
+    borderBottom: isActive ? "2px solid var(--gold)" : "2px solid transparent",
+    transition: "color 0.2s ease, border-color 0.2s ease",
+  });
+
   return (
     <div
       style={{
@@ -12,39 +27,16 @@ export default function CategoryBar({ active, onSelect, categories }: Props) {
         justifyContent: "center",
         gap: 32,
         flexWrap: "wrap",
-        padding: "14px 20px",
+        padding: "16px 20px 0",
         borderBottom: "1px solid var(--line)",
-        background: "var(--cream)",
+        background: "var(--obsidian)",
       }}
     >
-      <button
-        onClick={() => onSelect("All")}
-        style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          fontWeight: active === "All" ? 700 : 500,
-          color: active === "All" ? "var(--navy)" : "var(--text-muted)",
-          fontSize: 14,
-          fontFamily: "'Inter', sans-serif",
-        }}
-      >
+      <button onClick={() => onSelect("All")} style={tabStyle(active === "All")}>
         All Jewellery
       </button>
       {categories.map((c) => (
-        <button
-          key={c}
-          onClick={() => onSelect(c)}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            fontWeight: active === c ? 700 : 500,
-            color: active === c ? "var(--navy)" : "var(--text-muted)",
-            fontSize: 14,
-            fontFamily: "'Inter', sans-serif",
-          }}
-        >
+        <button key={c} onClick={() => onSelect(c)} style={tabStyle(active === c)}>
           {c}
         </button>
       ))}

@@ -1,70 +1,118 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --navy: #0a1930;
-  --navy-deep: #05101f;
-  --champagne: #d9b98a;
-  --champagne-light: #f0e2c8;
-  --cream: #f7f3ea;
-  --line: rgba(217, 185, 138, 0.25);
-  --text-dark: #0a1930;
-  --text-muted: #6b7280;
+  /* Luxury palette */
+  --obsidian: #09090b;
+  --charcoal: #18181b;
+  --charcoal-light: #232327;
+  --gold: #D4AF37;
+  --gold-light: #F3E5AB;
+  --gold-deep: #AA820A;
+  --ivory: #f7f5f0;
+  --text-muted: #a1a1aa;
+  --line: rgba(212, 175, 55, 0.18);
 }
 
 * {
   box-sizing: border-box;
 }
 
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100%;
-}
-
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--cream);
-  color: var(--text-dark);
+  margin: 0;
+  font-family: 'Montserrat', -apple-system, sans-serif;
+  background: var(--obsidian);
+  color: var(--ivory);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
-h1, h2, h3, .brand-font {
-  font-family: 'Jost', sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 0.3px;
   font-weight: 500;
-  letter-spacing: 0.5px;
 }
 
-button {
-  font-family: 'Inter', sans-serif;
-}
-
-/* Reusable theme classes */
-.btn-gold {
-  background-color: var(--navy);
-  color: var(--champagne-light);
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btn-gold:hover {
-  background-color: var(--navy-deep);
-}
-
-.product-card {
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid var(--line);
-  overflow: hidden;
-  text-decoration: none;
+a {
   color: inherit;
-  display: block;
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
+/* Reusable gold gradient text */
+.gold-gradient-text {
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glassmorphism surface, used on sticky nav / modals / drawers */
+.glass-surface {
+  background: rgba(24, 24, 27, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+}
+
+/* Product card base */
+.product-card {
+  background: var(--charcoal);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 24px rgba(10, 25, 48, 0.12);
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 18px 40px rgba(212, 175, 55, 0.12);
+}
+
+/* Primary gold button */
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold));
+  color: var(--obsidian);
+  border: none;
+  padding: 14px 28px;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.15s ease;
+}
+.btn-gold:hover {
+  filter: brightness(1.1);
+}
+.btn-gold:active {
+  transform: scale(0.98);
+}
+
+/* Ghost/outline button, gold border */
+.btn-outline-gold {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 13px 28px;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-outline-gold:hover {
+  background: var(--gold);
+  color: var(--obsidian);
+}
+
+/* Eyebrow label style, used above headings */
+.eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
 }
