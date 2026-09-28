@@ -3,12 +3,13 @@ import ProductCard from "../components/ProductCard";
 import CategoryBar from "../components/CategoryBar";
 import TrustBadges from "../components/TrustBadges";
 import { useCart } from "../context/CartContext";
+import { useSearch } from "../context/SearchContext";
 import { jewelryProducts, categories } from "../data/products";
 
 type SortOption = "popularity" | "price-low" | "price-high";
 
 export default function Home() {
-  const [search, setSearch] = useState<string>("");
+  const { search, setSearch } = useSearch();
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
@@ -64,12 +65,6 @@ export default function Home() {
           <p className="home-hero-subtitle">
             Discover our artisan-crafted jewelry collection
           </p>
-          <input
-            placeholder="Search collections..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="home-search-input"
-          />
         </div>
 
         {/* Filter & Sort Bar */}
