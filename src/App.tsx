@@ -11,6 +11,8 @@ import ProductDetails from "./pages/ProductDetails";
 import OrderHistory from "./pages/OrderHistory";
 import Wishlist from "./pages/Wishlist";
 import Atelier from "./pages/Atelier";
+import { SearchProvider } from "./context/SearchContext";
+
 export default function App() {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
@@ -24,7 +26,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <SearchProvider>
       <Navbar />
       <CartDrawer />
       <main style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px 60px" }}>
@@ -60,6 +62,6 @@ export default function App() {
           />
         </Routes>
       </main>
-    </>
+    </SearchProvider>
   );
 }

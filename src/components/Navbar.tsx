@@ -1,19 +1,29 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { useCartDrawer } from "../context/CartDrawerContext";
+import { useSearch } from "../context/SearchContext";
 import cartIcon from "../assets/cart-icon.png";
 
 export default function Navbar() {
   const { cart } = useCart();
   const { user, logout } = useAuth();
   const { openDrawer } = useCartDrawer();
+  const { search, setSearch } = useSearch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   const cartItemCount = cart?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   const closeMobileNav = () => setIsMobileNavOpen(false);
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    // If the user searches from another page (Atelier, Wishlist...), take them to the products
+    if (location.pathname !== "/") navigate("/");
+  };
 
   // Lock body scroll while the mobile drawer is open
   useEffect(() => {
@@ -39,6 +49,16 @@ export default function Navbar() {
           </Link>
 
           {user && <span className="nav-greeting">Welcome, {user.name}</span>}
+        </div>
+
+        {/* Middle: Search */}
+        <div className="nav-search">
+          <input
+            placeholder="Search collections..."
+            value={search}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="nav-search-input"
+          />
         </div>
 
         {/* Right: Nav items */}
