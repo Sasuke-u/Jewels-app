@@ -1,161 +1,144 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import ProductCard from "../components/ProductCard";
+import CategoryBar from "../components/CategoryBar";
+import TrustBadges from "../components/TrustBadges";
 import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
-import { useCartDrawer } from "../context/CartDrawerContext";
-import cartIcon from "../assets/cart-icon.png";
+import { jewelryProducts, categories } from "../data/products";
 
-export default function Navbar() {
-  const { cart } = useCart();
-  const { user, logout } = useAuth();
-  const { openDrawer } = useCartDrawer();
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+type SortOption = "popularity" | "price-low" | "price-high";
 
-  const cartItemCount = cart?.reduce((total, item) => total + item.quantity, 0) || 0;
+export default function Home() {
+  const [search, setSearch] = useState<string>("");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [minPrice, setMinPrice] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
+  const [sortBy, setSortBy] = useState<SortOption>("popularity");
+  const { addToCart } = useCart();
 
-  const closeMobileNav = () => setIsMobileNavOpen(false);
+  const categoryNames = categories.map((c) => c.name);
 
-  // Lock body scroll while the mobile drawer is open
-  useEffect(() => {
-    document.body.style.overflow = isMobileNavOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobileNavOpen]);
+  let filtered = jewelryProducts.filter((p) => {
+    const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = activeCategory === "All" || p.category === activeCategory;
+    const matchesMin = minPrice === "" || p.price >= Number(minPrice);
+    const matchesMax = maxPrice === "" || p.price <= Number(maxPrice);
+    return matchesSearch && matchesCategory && matchesMin && matchesMax;
+  });
 
-  const handleLogout = () => {
-    closeMobileNav();
-    logout();
+  if (sortBy === "price-low") {
+    filtered = [...filtered].sort((a, b) => a.price - b.price);
+  } else if (sortBy === "price-high") {
+    filtered = [...filtered].sort((a, b) => b.price - a.price);
+  } else {
+    filtered = [...filtered].sort((a, b) => a.id - b.id);
+  }
+
+  const activeFilterCount = [
+    search !== "",
+    activeCategory !== "All",
+    minPrice !== "",
+    maxPrice !== "",
+  ].filter(Boolean).length;
+
+  const clearFilters = () => {
+    setSearch("");
+    setActiveCategory("All");
+    setMinPrice("");
+    setMaxPrice("");
+    setSortBy("popularity");
   };
 
   return (
-    <>
-      <nav className="glass-surface navbar">
-        {/* Left: Brand + greeting */}
-        <div className="nav-left">
-          <Link to="/" className="nav-brand">
-            <span className="gold-gradient-text nav-brand-ns">NS</span>
-            <span className="nav-brand-jewels">Jewels</span>
-          </Link>
-
-          {user && <span className="nav-greeting">Welcome, {user.name}</span>}
-        </div>
-
-        {/* Right: Nav items */}
-        <div className="nav-right">
-          {/* Desktop-only text links + auth button */}
-          <div className="nav-desktop-links">
-            <Link to="/" className="nav-link">
-              Home
-            </Link>
-
-            <Link to="/atelier" className="nav-link">
-              Atelier
-            </Link>
-
-            {user && (
-              <Link to="/orders" className="nav-link">
-                Orders
-              </Link>
-            )}
-
-            {user ? (
-              <button
-                onClick={logout}
-                className="btn-outline-gold"
-                style={{ padding: "8px 18px", fontSize: "11px" }}
-              >
-                Logout
-              </button>
-            ) : (
-              <Link to="/login" className="btn-gold" style={{ padding: "9px 20px", fontSize: "11px" }}>
-                Log In
-              </Link>
-            )}
-          </div>
-
-          {/* Wishlist icon — always visible */}
-          <Link to="/wishlist" className="nav-icon-link" aria-label="Wishlist">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M12 21s-7.5-4.6-10-9.1C.5 8.6 2.3 5 6 5c2.1 0 3.6 1.1 6 3.5C14.4 6.1 15.9 5 18 5c3.7 0 5.5 3.6 4 6.9-2.5 4.5-10 9.1-10 9.1z" />
-            </svg>
-          </Link>
-
-          {/* Cart — always visible, opens the slide-out drawer */}
-          <button onClick={openDrawer} aria-label="Open cart" className="nav-cart-btn">
-            <img
-              src={cartIcon}
-              alt=""
-              style={{ width: "20px", height: "20px", filter: "invert(1) brightness(2)" }}
-            />
-            {cartItemCount > 0 && <span className="cart-badge">{cartItemCount}</span>}
-          </button>
-
-          {/* Hamburger — mobile only */}
-          <button
-            className={`nav-hamburger${isMobileNavOpen ? " open" : ""}`}
-            onClick={() => setIsMobileNavOpen((open) => !open)}
-            aria-label={isMobileNavOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMobileNavOpen}
-          >
-            <span />
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile drawer + overlay */}
-      <div
-        className={`mobile-nav-overlay${isMobileNavOpen ? " open" : ""}`}
-        onClick={closeMobileNav}
-        aria-hidden={!isMobileNavOpen}
+    <div>
+      <CategoryBar
+        active={activeCategory}
+        onSelect={setActiveCategory}
+        categories={categoryNames}
       />
 
-      <aside
-        className={`mobile-nav-drawer${isMobileNavOpen ? " open" : ""}`}
-        aria-hidden={!isMobileNavOpen}
-      >
-        <div className="mobile-nav-header">
-          <span className="gold-gradient-text" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "22px" }}>
-            Menu
-          </span>
-          <button className="mobile-nav-close" onClick={closeMobileNav} aria-label="Close menu">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
-          </button>
+      <div className="home-page">
+        <div className="home-hero">
+          <h1 className="home-hero-title">
+            Timeless Elegance,<br />Handcrafted for You
+          </h1>
+          <p className="home-hero-subtitle">
+            Discover our artisan-crafted jewelry collection
+          </p>
+          <input
+            placeholder="Search collections..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="home-search-input"
+          />
         </div>
 
-        {user && <div className="mobile-nav-greeting">Welcome, {user.name}</div>}
+        {/* Filter & Sort Bar */}
+        <div className="filter-bar">
+          <div className="filter-group">
+            <label className="filter-label">Price:</label>
+            <input
+              type="number"
+              placeholder="Min"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="filter-input"
+            />
+            <span className="filter-dash">–</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="filter-input"
+            />
+          </div>
 
-        <nav className="mobile-nav-links">
-          <Link to="/" className="mobile-nav-link" onClick={closeMobileNav}>
-            Home
-          </Link>
-          <Link to="/atelier" className="mobile-nav-link" onClick={closeMobileNav}>
-            Atelier
-          </Link>
-          <Link to="/wishlist" className="mobile-nav-link" onClick={closeMobileNav}>
-            Wishlist
-          </Link>
-          {user && (
-            <Link to="/orders" className="mobile-nav-link" onClick={closeMobileNav}>
-              Orders
-            </Link>
+          <div className="filter-group">
+            <label className="filter-label">Sort:</label>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              className="filter-select"
+            >
+              <option value="popularity">Popularity</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+
+          {activeFilterCount > 0 && (
+            <span className="filter-badge">{activeFilterCount} active</span>
           )}
-        </nav>
 
-        <div className="mobile-nav-footer">
-          {user ? (
-            <button onClick={handleLogout} className="btn-outline-gold">
-              Logout
+          {activeFilterCount > 0 && (
+            <button onClick={clearFilters} className="clear-filters-btn">
+              Clear filters
             </button>
-          ) : (
-            <Link to="/login" className="btn-gold" onClick={closeMobileNav}>
-              Log In
-            </Link>
           )}
         </div>
-      </aside>
-    </>
+
+        {filtered.length === 0 ? (
+          <div className="empty-state">
+            <p className="empty-state-text">
+              No products found matching your filters.
+            </p>
+            <button onClick={clearFilters} className="btn-gold">
+              Clear Filters
+            </button>
+          </div>
+        ) : (
+          <div className="product-grid">
+            {filtered.map((p) => (
+              <ProductCard key={p.id} product={p} onAdd={addToCart} />
+            ))}
+          </div>
+        )}
+
+        {/* Moved to the bottom of the page, below the products */}
+        <div style={{ marginTop: "3rem" }}>
+          <TrustBadges />
+        </div>
+      </div>
+    </div>
   );
 }
