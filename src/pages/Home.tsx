@@ -72,8 +72,6 @@ export default function Home() {
           />
         </div>
 
-        <TrustBadges />
-
         {/* Filter & Sort Bar */}
         <div className="filter-bar">
           <div className="filter-group">
@@ -135,6 +133,11 @@ export default function Home() {
             ))}
           </div>
         )}
+
+        {/* Moved to the bottom of the page, below the products */}
+        <div style={{ marginTop: "3rem" }}>
+          <TrustBadges />
+        </div>
       </div>
     </div>
   );
