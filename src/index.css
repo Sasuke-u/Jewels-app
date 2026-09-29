@@ -2936,4 +2936,123 @@ a {
   to {
     transform: translateX(0);
   }
+  
+}.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+  margin: 24px 0;
+}
+
+.hero-slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+
+.hero-slide-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 48px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+}
+
+.hero-slide-title {
+  color: #fff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.hero-slide-subtitle {
+  color: #d8d8d8;
+  font-size: 1rem;
+}
+
+.hero-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  color: #fff;
+  font-size: 1.8rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.hero-slider-arrow:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.hero-slider-arrow.left {
+  left: 16px;
+}
+
+.hero-slider-arrow.right {
+  right: 16px;
+}
+
+.hero-slider-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.hero-slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, width 0.2s;
+}
+
+.hero-slider-dot.active {
+  background: #c9a227;
+  width: 20px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .hero-slider {
+    height: 260px;
+  }
+
+  .hero-slide-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-slide-overlay {
+    padding: 0 24px;
+  }
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import CategoryBar from "../components/CategoryBar";
 import TrustBadges from "../components/TrustBadges";
+import HeroSlider from "../components/HeroSlider";
 import { useCart } from "../context/CartContext";
 import { useSearch } from "../context/SearchContext";
 import { jewelryProducts, categories } from "../data/products";
@@ -67,6 +68,8 @@ export default function Home() {
           </p>
         </div>
 
+        <HeroSlider />
+
         {/* Filter & Sort Bar */}
         <div className="filter-bar">
           <div className="filter-group">
@@ -129,7 +132,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* Moved to the bottom of the page, below the products */}
         <div style={{ marginTop: "3rem" }}>
           <TrustBadges />
         </div>
