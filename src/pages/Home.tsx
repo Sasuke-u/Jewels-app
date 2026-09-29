@@ -59,6 +59,8 @@ export default function Home() {
       />
 
       <div className="home-page">
+        <HeroSlider />
+
         <div className="home-hero">
           <h1 className="home-hero-title">
             Timeless Elegance,<br />Handcrafted for You
@@ -67,8 +69,6 @@ export default function Home() {
             Discover our artisan-crafted jewelry collection
           </p>
         </div>
-
-        <HeroSlider />
 
         {/* Filter & Sort Bar */}
         <div className="filter-bar">
